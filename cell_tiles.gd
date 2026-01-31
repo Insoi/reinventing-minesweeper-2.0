@@ -14,7 +14,7 @@ func _ready() -> void:
 	get_window().size = Vector2(board_width * cell_size, board_height * cell_size)
 	generate_board()
 	pass # Replace with function body.
-
+#test
 func generate_board() -> void:
 	cell_array.clear()
 	
