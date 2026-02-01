@@ -27,6 +27,12 @@ func generate_board() -> void:
 			row.append(0)
 		cell_array.append(row)
 	
+	#set each cell to be unexplored
+	for y in board_height:
+		for x in board_width:
+			cell_array[x][y] = unexplored_cell
+			set_cell(Vector2(x,y), 0, unexplored_cell)
+	#test
 	#place down x amt bombs randomly
 	for i in bombs:
 		var random_pos = Vector2(randi_range(0, board_height-1), randi_range(0, board_width-1))
@@ -41,8 +47,6 @@ func generate_board() -> void:
 	#assign each cell with a number / empty
 	for y in board_height:
 		for x in board_width:
-			set_cell(Vector2(x,y), 0, unexplored_cell)
-			
 			if cell_array[x][y] == bomb_cell:
 				continue
 			
@@ -56,7 +60,6 @@ func generate_board() -> void:
 			#draw all cells as unexplored in the start, basically just skip if it's a bomb_cell
 			#TODO: Get nearby bombs +1int by going through each nearby cell and use that int var for the number
 			#TODO: If there's no bombs then just make it a blank cell
-			set_cell(Vector2(x,y), 0, unexplored_cell)
 			
 	print(cell_array)
 
