@@ -6,12 +6,14 @@ const cell_size : int = 16
 const bombs : int = (board_height * board_width / 100) * 20 # as in 20% of the total cells on the board
 
 const numbers = [Vector2i(0,14), Vector2i(0,13), Vector2i(0,12), Vector2i(0,11), Vector2i(0,10), Vector2i(0,9), Vector2i(0,8), Vector2i(0,7)]
-
 const unexplored_cell = Vector2i(0,0)
 const blank_cell = Vector2i(0,15)
 const bomb_cell = Vector2i(0,5)
+const flagged_cell = Vector2i(0,1)
 
+var flags = bombs
 var cell_array = []
+var player_array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -35,6 +37,8 @@ func generate_board() -> void:
 			cell_array[x][y] = unexplored_cell
 			set_cell(Vector2(x,y), 0, unexplored_cell)
 	
+	player_array = cell_array.duplicate(true)
+	
 	#place down x amt bombs randomly
 	for i in bombs:
 		var random_pos = Vector2(randi_range(0, board_height-1), randi_range(0, board_width-1))
@@ -52,23 +56,19 @@ func generate_board() -> void:
 			if cell_array[x][y] == bomb_cell:
 				continue
 			
-			var bombs = 0
+			var bombs_found : int = 0
 			var nearby_cells = get_nearby_cells(Vector2i(x,y))
 			#print("nearby cells:", nearby_cells)
 			
 			for nearby_cell in nearby_cells:
 				#print(nearby_cell)
 				if nearby_cell == bomb_cell:
-					bombs += 1
+					bombs_found += 1
 			
-			if bombs > 0:
-				cell_array[x][y] = numbers[bombs-1]
+			if bombs_found > 0:
+				cell_array[x][y] = numbers[bombs_found-1]
 			else:
 				cell_array[x][y] = blank_cell
-			
-			#draw all cells as unexplored in the start, basically just skip if it's a bomb_cell
-			#TODO: Get nearby bombs +1int by going through each nearby cell and use that int var for the number
-			#TODO: If there's no bombs then just make it a blank cell
 			
 	print(cell_array)
 
@@ -96,14 +96,30 @@ func _input(event):
 	if event is InputEventMouseButton:
 		var mouse_pos = get_global_mouse_position()
 		
-		if event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_LEFT: # open tile cell up / detect nearby cells with array
+		if event.pressed:
 			var tile_pos = (mouse_pos / 16).floor()
 			var tile_data = cell_array[tile_pos.x][tile_pos.y]
-			set_cell(Vector2(tile_pos.x, tile_pos.y), 0, tile_data)
+			var tile_data_player = player_array[tile_pos.x][tile_pos.y]
 			
-			print(1, tile_data)
-			
-		
-		if event.pressed and event.button_index == MouseButton.MOUSE_BUTTON_RIGHT: # add a flag / remove flag
-			print("RIGHT:", event, get_global_mouse_position())
+			if event.button_index == MouseButton.MOUSE_BUTTON_LEFT: # open tile cell up / detect nearby cells with array
+				print("REVEALED: ", tile_data)
+				set_cell(Vector2(tile_pos.x, tile_pos.y), 0, tile_data)
+				player_array[tile_pos.x][tile_pos.y] = tile_data
+				
+			if event.button_index == MouseButton.MOUSE_BUTTON_RIGHT: # place down flag / remove flag
+				print("FLAGGED CELL: ", tile_data)
+				
+				if tile_data_player == flagged_cell:
+					flags += 1
+					
+					player_array[tile_pos.x][tile_pos.y] = unexplored_cell
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, unexplored_cell)
+					
+					return
+					
+				flags -= 1
+				
+				if tile_data_player == Vector2i(0,0):
+					player_array[tile_pos.x][tile_pos.y] = flagged_cell
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, flagged_cell)
 		
