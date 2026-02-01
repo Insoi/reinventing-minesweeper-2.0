@@ -43,14 +43,31 @@ func generate_board() -> void:
 		for x in board_width:
 			
 			
-			#draw all cells as unexplored in the start
+			#draw all cells as unexplored in the start, basically just skip if it's a bomb_cell
+			#TODO: Get nearby bombs +1int by going through each nearby cell and use that int var for the number
+			#TODO: If there's no bombs then just make it a blank cell
 			set_cell(Vector2(x,y), 0, unexplored_cell)
 			
 	print(cell_array)
 
-func get_nearby_cells(tile_cell): #-> Array:
-	pass
-	#TODO: +1 and -1 on each axis, then also get corners. Ignore if index doesn't exist
+func get_nearby_cells(tile_cell: Vector2) -> Array:
+	var nearby_cells = []
+	
+	#getting all directions surrounding the cells including corners
+	var directions = [
+		Vector2(-1,-1), Vector2(0,-1), Vector2(1,-1), #top left, top, top right
+		Vector2(-1,0), Vector2(1,0), #left and right
+		Vector2(-1,1), Vector2(0,1), Vector2(1,1) #bottom left, bottom and bottom right
+	]
+	
+	#check all directions and append to array if direction is in the board bounds
+	for direction in directions:
+		var check_pos = tile_cell + direction
+		
+		if check_pos.x >= 0 and check_pos.x < board_width and check_pos.y >= 0 and check_pos.y < board_height:
+			nearby_cells.append(check_pos)
+	
+	return nearby_cells
 
 func _input(event):
 	if event is InputEventMouseButton:
