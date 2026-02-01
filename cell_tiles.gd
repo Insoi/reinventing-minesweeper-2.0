@@ -3,6 +3,7 @@ extends TileMapLayer
 const board_height : int = 25
 const board_width : int = 25
 const cell_size : int = 16
+@warning_ignore("integer_division")
 const bombs : int = (board_height * board_width / 100) * 20 # as in 20% of the total cells on the board
 
 const numbers = [Vector2i(0,14), Vector2i(0,13), Vector2i(0,12), Vector2i(0,11), Vector2i(0,10), Vector2i(0,9), Vector2i(0,8), Vector2i(0,7)]
@@ -19,7 +20,12 @@ var player_array = []
 func _ready() -> void:
 	get_window().size = Vector2(board_width * cell_size, board_height * cell_size)
 	generate_board()
-	pass # Replace with function body.
+
+func game_over(cleared_board: bool) -> void:
+	pass
+	#TODO: show ui for playing again and stats. Leave stats empty if game_over was initiated by dying
+	#TODO: store the current time locally if initiated by winning
+	#TODO: button to generate a new board / play again
 
 func generate_board() -> void:
 	cell_array.clear()
@@ -97,7 +103,7 @@ func _input(event):
 		var mouse_pos = get_global_mouse_position()
 		
 		if event.pressed:
-			var tile_pos = (mouse_pos / 16).floor()
+			var tile_pos = (mouse_pos / cell_size).floor()
 			var tile_data = cell_array[tile_pos.x][tile_pos.y]
 			var tile_data_player = player_array[tile_pos.x][tile_pos.y]
 			
@@ -123,3 +129,6 @@ func _input(event):
 					player_array[tile_pos.x][tile_pos.y] = flagged_cell
 					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, flagged_cell)
 		
+
+func _on_timer_timeout():
+	print("wait")

@@ -5,3 +5,8 @@
 [node name="game" type="Node2D" unique_id=555629509]
 
 [node name="TileMapLayer" parent="." unique_id=430647745 instance=ExtResource("1_80nbo")]
+
+[node name="Timer" type="Timer" parent="." unique_id=1788367816]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="TileMapLayer" method="_on_timer_timeout"]
