@@ -41,7 +41,17 @@ func generate_board() -> void:
 	#assign each cell with a number / empty
 	for y in board_height:
 		for x in board_width:
+			set_cell(Vector2(x,y), 0, unexplored_cell)
 			
+			if cell_array[x][y] == bomb_cell:
+				continue
+			
+			var bombs: int = 0
+			var nearby_cells: Array[Vector2] = get_nearby_cells(cell_array[x][y])
+			print(nearby_cells)
+			
+			for nearby_cell in nearby_cells:
+				print(nearby_cell)
 			
 			#draw all cells as unexplored in the start, basically just skip if it's a bomb_cell
 			#TODO: Get nearby bombs +1int by going through each nearby cell and use that int var for the number
