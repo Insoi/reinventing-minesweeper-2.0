@@ -128,7 +128,6 @@ func _input(event):
 				if tile_data_player == Vector2i(0,0):
 					player_array[tile_pos.x][tile_pos.y] = flagged_cell
 					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, flagged_cell)
-		
 
 func _on_timer_timeout():
 	print("wait")
