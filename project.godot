@@ -24,3 +24,9 @@ config/icon="res://icon.svg"
 window/size/viewport_width=320
 window/size/viewport_height=320
 window/size/resizable=false
+window/stretch/scale=2.0
+window/stretch/scale_mode="integer"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

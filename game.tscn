@@ -1,12 +1,39 @@
-[gd_scene format=3 uid="uid://d2ah0va8gbi54"]
+[gd_scene format=4 uid="uid://d2ah0va8gbi54"]
 
 [ext_resource type="PackedScene" uid="uid://bouewfwao61xb" path="res://cell_tiles.tscn" id="1_80nbo"]
+[ext_resource type="Texture2D" uid="uid://cskxnna6rre7t" path="res://assets/textures/Board_background_tileset.png" id="2_e2o6t"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_feb5d"]
+texture = ExtResource("2_e2o6t")
+0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+0:3/0 = 0
+2:3/0 = 0
+0:4/0 = 0
+2:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_fc0e3"]
+sources/0 = SubResource("TileSetAtlasSource_feb5d")
 
 [node name="game" type="Node2D" unique_id=555629509]
 
-[node name="TileMapLayer" parent="." unique_id=430647745 instance=ExtResource("1_80nbo")]
+[node name="board" parent="." unique_id=430647745 instance=ExtResource("1_80nbo")]
 
 [node name="Timer" type="Timer" parent="." unique_id=1788367816]
 autostart = true
 
-[connection signal="timeout" from="Timer" to="TileMapLayer" method="_on_timer_timeout"]
+[node name="background" type="TileMapLayer" parent="." unique_id=913779233]
+tile_map_data = PackedByteArray("AAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAFAAMAAAAAAAMAAAAFAAQAAAAAAAMAAAAFAAUAAAAAAAMAAAAFAAIAAAAAAAIAAAAFAAYAAAAAAAQAAAAGAAIAAAABAAIAAAAHAAIAAAABAAIAAAAIAAIAAAABAAIAAAAJAAIAAAACAAIAAAAJAAMAAAACAAMAAAAJAAQAAAACAAQAAAAJAAUAAAACAAQAAAAJAAYAAAACAAQAAAA=")
+tile_set = SubResource("TileSet_fc0e3")
+
+[connection signal="timeout" from="Timer" to="board" method="_on_timer_timeout"]

@@ -6,11 +6,11 @@ const cell_size : int = 16
 @warning_ignore("integer_division")
 const bombs : int = (board_height * board_width / 100) * 20 # as in 20% of the total cells on the board
 
-const numbers = [Vector2i(0,14), Vector2i(0,13), Vector2i(0,12), Vector2i(0,11), Vector2i(0,10), Vector2i(0,9), Vector2i(0,8), Vector2i(0,7)]
-const unexplored_cell = Vector2i(0,0)
-const blank_cell = Vector2i(0,15)
-const bomb_cell = Vector2i(0,5)
-const flagged_cell = Vector2i(0,1)
+const numbers = [14, 13, 12, 11, 10, 9, 8, 7]
+const unexplored_cell = 0
+const blank_cell = 15
+const bomb_cell = 5
+const flagged_cell = 1
 
 var flags = bombs
 var cell_array = []
@@ -18,7 +18,7 @@ var player_array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	get_window().size = Vector2(board_width * cell_size, board_height * cell_size)
+	get_window().size = Vector2(board_width * cell_size, board_height * cell_size) * 2
 	generate_board()
 
 func game_over(cleared_board: bool) -> void:
@@ -41,7 +41,7 @@ func generate_board() -> void:
 	for y in board_height:
 		for x in board_width:
 			cell_array[x][y] = unexplored_cell
-			set_cell(Vector2(x,y), 0, unexplored_cell)
+			set_cell(Vector2(x,y), 0, Vector2i(0, unexplored_cell))
 	
 	player_array = cell_array.duplicate(true)
 	
@@ -103,13 +103,18 @@ func _input(event):
 		var mouse_pos = get_global_mouse_position()
 		
 		if event.pressed:
-			var tile_pos = (mouse_pos / cell_size).floor()
+			var tile_pos = Vector2i((mouse_pos / cell_size).floor())
 			var tile_data = cell_array[tile_pos.x][tile_pos.y]
 			var tile_data_player = player_array[tile_pos.x][tile_pos.y]
 			
 			if event.button_index == MouseButton.MOUSE_BUTTON_LEFT: # open tile cell up / detect nearby cells with array
 				print("REVEALED: ", tile_data)
-				set_cell(Vector2(tile_pos.x, tile_pos.y), 0, tile_data)
+				print(tile_pos, tile_data)
+				print(Vector2i(tile_pos.x + (tile_pos.y % 2) % 2, tile_data))
+				print("test 1 ", tile_pos.x, tile_pos.y)
+				print("test 2 ", (tile_pos.x + (tile_pos.y % 2)) % 2)
+				
+				set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
 				player_array[tile_pos.x][tile_pos.y] = tile_data
 				
 			if event.button_index == MouseButton.MOUSE_BUTTON_RIGHT: # place down flag / remove flag
@@ -119,15 +124,15 @@ func _input(event):
 					flags += 1
 					
 					player_array[tile_pos.x][tile_pos.y] = unexplored_cell
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, unexplored_cell)
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, unexplored_cell))
 					
 					return
 					
 				flags -= 1
 				
-				if tile_data_player == Vector2i(0,0):
+				if tile_data_player == 0:
 					player_array[tile_pos.x][tile_pos.y] = flagged_cell
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, flagged_cell)
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, flagged_cell))
 
 func _on_timer_timeout():
 	print("wait")
