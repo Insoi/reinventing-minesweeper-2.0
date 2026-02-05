@@ -59,8 +59,7 @@ func generate_board() -> void:
 	#assign each cell with a number / empty
 	for y in board_height:
 		for x in board_width:
-			if cell_array[x][y] == bomb_cell:
-				continue
+			if cell_array[x][y] == bomb_cell: continue
 			
 			var bombs_found : int = 0
 			var nearby_cells = get_nearby_cells(Vector2i(x,y))
@@ -109,10 +108,6 @@ func _input(event):
 			
 			if event.button_index == MouseButton.MOUSE_BUTTON_LEFT: # open tile cell up / detect nearby cells with array
 				print("REVEALED: ", tile_data)
-				print(tile_pos, tile_data)
-				print(Vector2i(tile_pos.x + (tile_pos.y % 2) % 2, tile_data))
-				print("test 1 ", tile_pos.x, tile_pos.y)
-				print("test 2 ", (tile_pos.x + (tile_pos.y % 2)) % 2)
 				
 				set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
 				player_array[tile_pos.x][tile_pos.y] = tile_data

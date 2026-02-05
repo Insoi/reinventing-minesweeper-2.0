@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dy1lmeelqhf73"
-path="res://.godot/imported/minesweeper-tileset-v1.png-7d9dba392c8786960c3fb71054df6e8c.ctex"
+path="res://.godot/imported/minesweeper-tileset-v1.png-5f87bd68ec5f04b5deb2f5f55bef4cdb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/minesweeper-tileset-v1.png"
-dest_files=["res://.godot/imported/minesweeper-tileset-v1.png-7d9dba392c8786960c3fb71054df6e8c.ctex"]
+source_file="res://assets/textures/modern/minesweeper-tileset-v1.png"
+dest_files=["res://.godot/imported/minesweeper-tileset-v1.png-5f87bd68ec5f04b5deb2f5f55bef4cdb.ctex"]
 
 [params]
 
