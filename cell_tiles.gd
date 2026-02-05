@@ -4,7 +4,7 @@ const board_height : int = 25
 const board_width : int = 25
 const cell_size : int = 16
 @warning_ignore("integer_division")
-const bombs : int = (board_height * board_width / 100) * 20 # as in 20% of the total cells on the board
+const bombs : int = (board_height * board_width / 100) * 15 # as in 20% of the total cells on the board
 
 const numbers = [14, 13, 12, 11, 10, 9, 8, 7]
 const unexplored_cell = 0
