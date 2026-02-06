@@ -1,8 +1,8 @@
 [gd_scene format=4 uid="uid://d2ah0va8gbi54"]
 
-[ext_resource type="PackedScene" uid="uid://bouewfwao61xb" path="res://cell_tiles.tscn" id="1_80nbo"]
+[ext_resource type="PackedScene" uid="uid://bouewfwao61xb" path="res://scenes/cell_tiles.tscn" id="1_80nbo"]
 [ext_resource type="Texture2D" uid="uid://sko0oluxy7ar" path="res://assets/textures/modern/Game_title.png" id="1_feb5d"]
-[ext_resource type="Texture2D" uid="uid://cskxnna6rre7t" path="res://assets/textures/Board_background_tileset.png" id="2_e2o6t"]
+[ext_resource type="Texture2D" uid="uid://cskxnna6rre7t" path="res://assets/textures/modern/Board_background_tileset.png" id="2_e2o6t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e2o6t"]
 texture = ExtResource("2_e2o6t")

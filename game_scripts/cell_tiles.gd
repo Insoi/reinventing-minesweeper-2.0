@@ -119,7 +119,7 @@ func _input(event):
 					flags += 1
 					
 					player_array[tile_pos.x][tile_pos.y] = unexplored_cell
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, unexplored_cell))
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2((tile_pos.x + (tile_pos.y % 2)) % 2, unexplored_cell))
 					
 					return
 					

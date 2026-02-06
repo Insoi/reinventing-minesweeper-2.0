@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dd20nbb5ssxif"
-path="res://.godot/imported/Board_background_tileset.png-7f20e80b5e1ed9b8bb463dc2743d3cbd.ctex"
+uid="uid://cskxnna6rre7t"
+path="res://.godot/imported/Board_background_tileset.png-b2d04c3a621b2d40f0e45ef10c72450f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Board_background_tileset.png"
-dest_files=["res://.godot/imported/Board_background_tileset.png-7f20e80b5e1ed9b8bb463dc2743d3cbd.ctex"]
+source_file="res://assets/textures/modern/Board_background_tileset.png"
+dest_files=["res://.godot/imported/Board_background_tileset.png-b2d04c3a621b2d40f0e45ef10c72450f.ctex"]
 
 [params]
 
