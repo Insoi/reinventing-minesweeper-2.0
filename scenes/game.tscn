@@ -2,8 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://bouewfwao61xb" path="res://scenes/cell_tiles.tscn" id="1_80nbo"]
 [ext_resource type="Texture2D" uid="uid://sko0oluxy7ar" path="res://assets/textures/modern/Game_title.png" id="1_feb5d"]
+[ext_resource type="PackedScene" uid="uid://cbe228e4f3rps" path="res://scenes/background.tscn" id="1_lnu2h"]
 
 [node name="game" type="Node2D" unique_id=555629509]
+
+[node name="background" parent="." unique_id=1306923250 instance=ExtResource("1_lnu2h")]
 
 [node name="board" parent="." unique_id=430647745 instance=ExtResource("1_80nbo")]
 z_index = 2
