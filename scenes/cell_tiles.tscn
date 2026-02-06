@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bouewfwao61xb"]
 
 [ext_resource type="Texture2D" uid="uid://dy1lmeelqhf73" path="res://assets/textures/modern/minesweeper-tileset-v1.png" id="1_4n1be"]
-[ext_resource type="Script" uid="uid://br3l3qnf2xxvk" path="res://game_scripts/cell_tiles.gd" id="1_kl2wi"]
+[ext_resource type="Script" uid="uid://br3l3qnf2xxvk" path="res://scripts/cell_tiles.gd" id="1_kl2wi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4pn80"]
 texture = ExtResource("1_4n1be")
