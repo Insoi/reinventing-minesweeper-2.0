@@ -21,7 +21,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-config="*uid://b3sjqd5k4toyq"
+Config="*uid://b3sjqd5k4toyq"
+CellVectors="*uid://b81sjiiuuuko2"
 
 [debug_draw_3d]
 
