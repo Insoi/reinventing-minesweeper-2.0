@@ -1,12 +1,19 @@
 extends Node2D
 
+# flat background cells & debug
 const BACKGROUND_CELL_LIGHT = Vector2i(2,7)
 const BACKGROUND_CELL_DARK = Vector2i(1,7)
 const DEBUG_CELL = Vector2i(0,7)
 
-const STRAIGHT_TRANSITION_CELL = Vector2i(0,1)
-const CURVED_TRANSITION_CELL = Vector2i(0,0)
+# transition cells
+const STRAIGHT_TRANSITION_CELL = Vector2i(0,1) # straight for all sides (not top)
+const STRAIGHT_TRANSITION_CELL_TOP = Vector2i(1,0) # straight for top only
+const CURVED_TRANSITION_CELL_LT = Vector2i(0,0) # left top
+const CURVED_TRANSITION_CELL_RT = Vector2i(0,2) # right top
+const CURVED_TRANSITION_CELL_LB = Vector2i(2,1) # left bottom
+const CURVED_TRANSITION_CELL_RB = Vector2i(1,1) # right bottom
 
+# Board border cells
 const BOARD_L_TOP_CORNER_CELL = Vector2i(0,2)
 const BOARD_TOP_CELL = Vector2i(1,2)
 const BOARD_R_TOP_CORNER_CELL = Vector2i(2,2)
@@ -68,6 +75,21 @@ func generate_board_borders() -> void:
 		)
 
 func generate_background() -> void:
-	for x in config.BOARD_WIDTH + (config.STARTING_POS.x * 2) + 1:
-		for y in config.BOARD_HEIGHT + (config.STARTING_POS.y * 2) + 1:
-			background_bottom.set_cell(Vector2(x, y), 1, DEBUG_CELL)
+	var board_width = config.BOARD_WIDTH + (config.STARTING_POS.x * 2)
+	var board_height = config.BOARD_HEIGHT + (config.STARTING_POS.y * 2)
+	
+	for x in board_width:
+		for y in board_height:
+			var cell_coordinates : Vector2i
+			
+			if x == 0 or x == board_width - 1 or y == 0 or y == board_height - 1:
+				cell_coordinates = BACKGROUND_CELL_DARK
+			elif x == 1 or x == board_width - 2 or y == 1 or y == board_height - 2:
+				if x != 1 and y != 1:
+				#else:
+					cell_coordinates = BACKGROUND_CELL_LIGHT
+			else:
+				cell_coordinates = DEBUG_CELL
+			
+			background_bottom.set_cell(Vector2(x, y), 1, cell_coordinates)
+	

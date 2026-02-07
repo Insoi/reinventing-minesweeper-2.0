@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://cbe228e4f3rps"]
+
+[ext_resource type="Script" uid="uid://cjm3jqse3eouc" path="res://scripts/background.gd" id="1_i7s6n"]
+[ext_resource type="Texture2D" uid="uid://cskxnna6rre7t" path="res://assets/textures/modern/Board_background_tileset.png" id="1_oabld"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i7s6n"]
+texture = ExtResource("1_oabld")
+0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+0:3/0 = 0
+2:3/0 = 0
+0:4/0 = 0
+2:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+1:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+2:0/0 = 0
+2:7/0 = 0
+1:4/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_xehqc"]
+sources/2 = SubResource("TileSetAtlasSource_i7s6n")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_splo0"]
+texture = ExtResource("1_oabld")
+0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+0:3/0 = 0
+2:3/0 = 0
+0:4/0 = 0
+2:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+2:7/0 = 0
+1:4/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_eq6nc"]
+sources/1 = SubResource("TileSetAtlasSource_splo0")
+
+[node name="background" type="Node2D" unique_id=1306923250]
+script = ExtResource("1_i7s6n")
+
+[node name="background_top" type="TileMapLayer" parent="." unique_id=1581670065]
+z_index = 1
+tile_set = SubResource("TileSet_xehqc")
+
+[node name="background_bottom" type="TileMapLayer" parent="." unique_id=1365678668]
+tile_set = SubResource("TileSet_eq6nc")
