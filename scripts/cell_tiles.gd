@@ -15,7 +15,7 @@ func _ready() -> void:
 	generate_board()
 
 @warning_ignore("unused_parameter")
-func game_over(cleared_board: bool) -> void:
+func game_over() -> void:
 	pass
 	#TODO: show ui for playing again and stats. Leave stats empty if game_over was initiated by dying
 	#TODO: store the current time locally if initiated by winning
@@ -70,24 +70,26 @@ func generate_board() -> void:
 				cell_array[x][y] = CellVectors.BLANK_CELL
 			
 	generated.emit(cell_array)
-	
 
-func get_nearby_cells(tile_cell: Vector2) -> Array:
+func get_nearby_cells(tile_cell : Vector2i, return_pos : bool = false) -> Array:
 	var nearby_cells = []
 	
-	#getting all directions surrounding the cells including corners
+	# getting all directions surrounding the cells including corners
 	var directions = [
-		Vector2(-1,-1), Vector2(0,-1), Vector2(1,-1), #top left, top, top right
-		Vector2(-1,0), Vector2(1,0), #left and right
-		Vector2(-1,1), Vector2(0,1), Vector2(1,1) #bottom left, bottom and bottom right
-	]
+		Vector2i(-1,-1), Vector2i(0,-1), Vector2i(1,-1), # top left, top, top right
+		Vector2i(-1,0), Vector2i(1,0), # left and right
+		Vector2i(-1,1), Vector2i(0,1), Vector2i(1,1) #bottom left, bottom and bottom right
+	] 
 	
-	#check all directions and append to array if direction is in the board bounds
+	# check all directions and append to array if direction is in the board bounds
 	for direction in directions:
 		var check_pos = tile_cell + direction
 		
 		if check_pos.x >= 0 and check_pos.x < Config.BOARD_WIDTH and check_pos.y >= 0 and check_pos.y < Config.BOARD_HEIGHT:
-			nearby_cells.append(cell_array[check_pos.x][check_pos.y])
+			if return_pos:
+				nearby_cells.append(check_pos)
+			else:
+				nearby_cells.append(cell_array[check_pos.x][check_pos.y])
 	
 	return nearby_cells
 
@@ -108,10 +110,31 @@ func _input(event):
 			var tile_data_player = player_array[tile_array_pos.x][tile_array_pos.y]
 			
 			if event.button_index == MouseButton.MOUSE_BUTTON_LEFT: # open tile cell up / detect nearby cells with array
+				if tile_data_player != CellVectors.UNEXPLORED_CELL: return
+				if tile_data == CellVectors.BOMB_CELL:
+					# create a flashing effect of the bomb exploding / alternating between explosion and bomb tile cell
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
+					Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
+					game_over()
+					return
+				
 				print("REVEALED: ", tile_data)
 				
-				set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
-				player_array[tile_array_pos.x][tile_array_pos.y] = tile_data
+				if tile_data == CellVectors.BLANK_CELL:
+					var cells_to_reveal : Array = _flood_fill(tile_array_pos)
+					
+					for cell_pos in cells_to_reveal:
+						var reveal_tile_pos = cell_pos + Config.STARTING_POS
+						var cell_data = cell_array[cell_pos.x][cell_pos.y]
+						
+						set_cell(Vector2(reveal_tile_pos.x, reveal_tile_pos.y), 0,
+						Vector2i((reveal_tile_pos.x + (reveal_tile_pos.y % 2)) % 2, cell_data))
+						player_array[cell_pos.x][cell_pos.y] = cell_data
+				
+				else:
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
+					Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
+					player_array[tile_array_pos.x][tile_array_pos.y] = tile_data
 				
 			if event.button_index == MouseButton.MOUSE_BUTTON_RIGHT: # place down flag / remove flag
 				print("FLAGGED CELL: ", tile_data)
@@ -120,7 +143,8 @@ func _input(event):
 					flags += 1
 					
 					player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.UNEXPLORED_CELL
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.UNEXPLORED_CELL))
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
+					Vector2((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.UNEXPLORED_CELL))
 					
 					return
 					
@@ -128,7 +152,36 @@ func _input(event):
 				
 				if tile_data_player == 0:
 					player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.FLAGGED_CELL
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.FLAGGED_CELL))
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
+					Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.FLAGGED_CELL))
+
+func _flood_fill(tile_pos : Vector2i) -> Array:
+	var checked = []
+	var queue = [tile_pos]
+	var cells_to_reveal = []
+	
+	while queue.size() > 0:
+		var current = queue.pop_front()
+		if current in checked: continue
+		
+		checked.append(current)
+		
+		# skip if the cell is out of bounds
+		if current.x < 0 and current.x >= Config.BOARD_WIDTH and current.y < 0 and current.y >= Config.BOARD_HEIGHT: continue
+		if player_array[current.x][current.y] != CellVectors.UNEXPLORED_CELL: continue # skip if already revealed in player_array
+		
+		var cell_value = cell_array[current.x][current.y]
+		if cell_value == CellVectors.BOMB_CELL: continue # skip if it's a bomb cell
+		cells_to_reveal.append(current)
+		
+		if cell_value == CellVectors.BLANK_CELL:
+			var nearby_positions = get_nearby_cells(current, true)
+			
+			for nearby_pos in nearby_positions:
+				if nearby_pos not in checked:
+					queue.append(nearby_pos)
+	
+	return cells_to_reveal
 
 func _on_timer_timeout():
 	print("wait")
