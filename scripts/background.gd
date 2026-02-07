@@ -1,6 +1,9 @@
 extends Node2D
 
-const BACKGROUND_CELL = Vector2i(1,7)
+const BACKGROUND_CELL_LIGHT = Vector2i(2,7)
+const BACKGROUND_CELL_DARK = Vector2i(1,7)
+const DEBUG_CELL = Vector2i(0,7)
+
 const STRAIGHT_TRANSITION_CELL = Vector2i(0,1)
 const CURVED_TRANSITION_CELL = Vector2i(0,0)
 
@@ -18,7 +21,13 @@ const BOARD_L_CELL = Vector2i(0,3)
 @onready var background_bottom = get_node("background_bottom")
 
 func _on_board_generated(cell_array: Array) -> void:
-	# top border (right corner, top cells, left corner)
+	generate_board_borders()
+	generate_background()
+	
+	print("GENERATED BORDERS : ", cell_array)
+	
+func generate_board_borders() -> void:
+		# top border (right corner, top cells, left corner)
 	for x in config.BOARD_WIDTH + 2:
 		var cell_coordinates : Vector2i = BOARD_TOP_CELL
 		var cell_pos : Vector2 = Vector2(x + (config.STARTING_POS.x - 1), config.STARTING_POS.y - 1)
@@ -44,6 +53,7 @@ func _on_board_generated(cell_array: Array) -> void:
 		
 		background_top.set_cell(cell_pos, 2, cell_coordinates)
 	
+	# left and right borders
 	for y in config.BOARD_HEIGHT:
 		var left_cell_pos = Vector2(config.STARTING_POS.x - 1, y + config.STARTING_POS.y)
 		background_top.set_cell(left_cell_pos, 2, BOARD_L_CELL)
@@ -56,5 +66,8 @@ func _on_board_generated(cell_array: Array) -> void:
 			2,
 			BOARD_R_BOTTOM_CORNER_CELL
 		)
-	
-	print("GENERATED BORDERS : ", cell_array)
+
+func generate_background() -> void:
+	for x in config.BOARD_WIDTH + (config.STARTING_POS.x * 2) + 1:
+		for y in config.BOARD_HEIGHT + (config.STARTING_POS.y * 2) + 1:
+			background_bottom.set_cell(Vector2(x, y), 1, DEBUG_CELL)
