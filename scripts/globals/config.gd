@@ -1,15 +1,15 @@
 extends Node
 
-const board_height : int = 10
-const board_width : int = 10
-const cell_size : int = 16
-const starting_pos : Vector2i = Vector2i(5,6) # * cell_size
+const BOARD_HEIGHT : int = 5
+const BOARD_WIDTH : int = 2
+const CELL_SIZE : int = 16
+const STARTING_POS : Vector2i = Vector2i(5,6) # starting_pos * cell_size and starting_pos starts at 0
 
-@warning_ignore("integer_division")
-const bombs : int = (board_height * board_width / 100) * 15 # as in 20% of the total cells on the board
+@warning_ignore("narrowing_conversion")
+const BOMBS : int = (float(BOARD_HEIGHT * BOARD_WIDTH) / 100.0) * 50 # as in 20% of the total cells on the board
 
-const numbers = [14, 13, 12, 11, 10, 9, 8, 7]
-const unexplored_cell = 0
-const blank_cell = 15
-const bomb_cell = 5
-const flagged_cell = 1
+const NUMBERS = [14, 13, 12, 11, 10, 9, 8, 7]
+const UNEXPLORED_CELL = 0
+const BLANK_CELL = 15
+const BOMB_CELL = 5
+const FLAGGED_CELL = 1

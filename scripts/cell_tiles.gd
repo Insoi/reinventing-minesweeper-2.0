@@ -1,16 +1,20 @@
 extends TileMapLayer
 
-var flags = config.bombs
+signal generated(cell_array : Array)
+
+var flags = config.BOMBS
 var cell_array = []
 var player_array = []
 
 func _ready() -> void:
-	var x_size = (config.starting_pos.x * 2 + config.board_width) * config.cell_size
-	var y_size = (config.starting_pos.y * 2 + config.board_height) * config.cell_size
+	var x_size = (config.STARTING_POS.x * 2 + config.BOARD_WIDTH) * config.CELL_SIZE
+	var y_size = (config.STARTING_POS.y * 2 + config.BOARD_HEIGHT) * config.CELL_SIZE
+	print(config.BOMBS)
 	
 	get_window().size = Vector2(x_size, y_size) * 2 # 2 since pixels are double
 	generate_board()
 
+@warning_ignore("unused_parameter")
 func game_over(cleared_board: bool) -> void:
 	pass
 	#TODO: show ui for playing again and stats. Leave stats empty if game_over was initiated by dying
@@ -21,49 +25,52 @@ func generate_board() -> void:
 	cell_array.clear()
 	
 	#build new 2D array
-	for y in config.board_height:
+	for x in config.BOARD_WIDTH:
 		var row = []
-		for x in config.board_width:
+		for y in config.BOARD_HEIGHT:
 			row.append(0)
 		cell_array.append(row)
 	
+	print(cell_array)
+	
 	#set each cell to be unexplored
-	for y in config.board_height:
-		for x in config.board_width:
-			cell_array[x][y] = config.unexplored_cell
-			set_cell(Vector2(x + config.starting_pos.x, y + config.starting_pos.y), 0, Vector2i(0, config.unexplored_cell))
+	for y in config.BOARD_HEIGHT:
+		for x in config.BOARD_WIDTH:
+			cell_array[x][y] = config.UNEXPLORED_CELL
+			set_cell(Vector2(x + config.STARTING_POS.x, y + config.STARTING_POS.y), 0, Vector2i(0, config.UNEXPLORED_CELL))
 	
 	player_array = cell_array.duplicate(true)
 	
 	# place down x amt bombs randomly
-	for i in config.bombs:
-		var random_pos = Vector2(randi_range(0, config.board_height-1), randi_range(0, config.board_width-1))
-		var found_cell = cell_array[random_pos.x][random_pos.y]
+	for i in config.BOMBS:
+		var random_pos = Vector2i(randi_range(0, config.BOARD_HEIGHT-1), randi_range(0, config.BOARD_WIDTH-1))
+		var found_cell = cell_array[random_pos.y][random_pos.x]
 		
-		while found_cell == config.bomb_cell:
-			random_pos = Vector2(randi_range(0, config.board_height-1), randi_range(0, config.board_width-1))
-			found_cell = cell_array[random_pos.x][random_pos.y]
+		while found_cell == config.BOMB_CELL:
+			random_pos = Vector2i(randi_range(0, config.BOARD_HEIGHT-1), randi_range(0, config.BOARD_WIDTH-1))
+			found_cell = cell_array[random_pos.y][random_pos.x]
 		
-		cell_array[random_pos.x][random_pos.y] = config.bomb_cell
+		cell_array[random_pos.y][random_pos.x] = config.BOMB_CELL
 	
 	# assign each cell with a number / empty
-	for y in config.board_height:
-		for x in config.board_width:
-			if cell_array[x][y] == config.bomb_cell: continue
+	for y in config.BOARD_HEIGHT:
+		for x in config.BOARD_WIDTH:
+			if cell_array[x][y] == config.BOMB_CELL: continue
 			
 			var bombs_found : int = 0
 			var nearby_cells = get_nearby_cells(Vector2i(x,y))
 			
 			for nearby_cell in nearby_cells:
-				if nearby_cell == config.bomb_cell:
+				if nearby_cell == config.BOMB_CELL:
 					bombs_found += 1
 			
 			if bombs_found > 0:
-				cell_array[x][y] = config.numbers[bombs_found-1]
+				cell_array[x][y] = config.NUMBERS[bombs_found-1]
 			else:
-				cell_array[x][y] = config.blank_cell
+				cell_array[x][y] = config.BLANK_CELL
 			
-	print(cell_array)
+	generated.emit(cell_array)
+	
 
 func get_nearby_cells(tile_cell: Vector2) -> Array:
 	var nearby_cells = []
@@ -79,10 +86,9 @@ func get_nearby_cells(tile_cell: Vector2) -> Array:
 	for direction in directions:
 		var check_pos = tile_cell + direction
 		
-		if check_pos.x >= 0 and check_pos.x < config.board_width and check_pos.y >= 0 and check_pos.y < config.board_height:
+		if check_pos.x >= 0 and check_pos.x < config.BOARD_WIDTH and check_pos.y >= 0 and check_pos.y < config.BOARD_HEIGHT:
 			nearby_cells.append(cell_array[check_pos.x][check_pos.y])
 	
-	print(nearby_cells)
 	return nearby_cells
 
 func _input(event):
@@ -90,11 +96,11 @@ func _input(event):
 		var mouse_pos = get_global_mouse_position()
 		
 		if event.pressed:
-			var tile_pos = Vector2i((mouse_pos / config.cell_size).floor())
-			var tile_array_pos = Vector2i((mouse_pos / config.cell_size).floor()) - config.starting_pos
+			var tile_pos = Vector2i((mouse_pos / config.CELL_SIZE).floor())
+			var tile_array_pos = Vector2i((mouse_pos / config.CELL_SIZE).floor()) - config.STARTING_POS
 			print(tile_pos, tile_array_pos)
 			
-			if tile_array_pos.x < 0 or tile_array_pos.y < 0 or tile_array_pos.x >= config.board_width or tile_array_pos.y >= config.board_height: 
+			if tile_array_pos.x < 0 or tile_array_pos.y < 0 or tile_array_pos.x >= config.BOARD_WIDTH or tile_array_pos.y >= config.BOARD_HEIGHT: 
 				print("not inside board bounds")
 				return
 			
@@ -110,19 +116,19 @@ func _input(event):
 			if event.button_index == MouseButton.MOUSE_BUTTON_RIGHT: # place down flag / remove flag
 				print("FLAGGED CELL: ", tile_data)
 				
-				if tile_data_player == config.flagged_cell:
+				if tile_data_player == config.FLAGGED_CELL:
 					flags += 1
 					
-					player_array[tile_array_pos.x][tile_array_pos.y] = config.unexplored_cell
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2((tile_pos.x + (tile_pos.y % 2)) % 2, config.unexplored_cell))
+					player_array[tile_array_pos.x][tile_array_pos.y] = config.UNEXPLORED_CELL
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2((tile_pos.x + (tile_pos.y % 2)) % 2, config.UNEXPLORED_CELL))
 					
 					return
 					
 				flags -= 1
 				
 				if tile_data_player == 0:
-					player_array[tile_array_pos.x][tile_array_pos.y] = config.flagged_cell
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, config.flagged_cell))
+					player_array[tile_array_pos.x][tile_array_pos.y] = config.FLAGGED_CELL
+					set_cell(Vector2(tile_pos.x, tile_pos.y), 0, Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, config.FLAGGED_CELL))
 
 func _on_timer_timeout():
 	print("wait")
