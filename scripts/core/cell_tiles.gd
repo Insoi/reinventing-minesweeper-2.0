@@ -1,14 +1,19 @@
 extends TileMapLayer
 
 signal generated(cell_array : Array)
+#signal cell_revealed(position: Vector2i, cell_value: int)
+#signal game_won
+#signal game_lost
 
 var flags = Config.BOMBS
 var cell_array = []
 var player_array = []
 
+var board_revealed = false
+
 func _ready() -> void:
 	var x_size = (Config.STARTING_POS.x * 2 + Config.BOARD_WIDTH) * Config.CELL_SIZE
-	var y_size = (Config.STARTING_POS.y * 2 + Config.BOARD_HEIGHT) * Config.CELL_SIZE
+	var y_size = (Config.STARTING_POS.y * 2 + (Config.BOARD_HEIGHT - Config.BOTTOM_MARGIN)) * Config.CELL_SIZE
 	print(Config.BOMBS)
 	
 	get_window().size = Vector2(x_size, y_size) * 2 # 2 since pixels are double
@@ -68,7 +73,8 @@ func generate_board() -> void:
 				cell_array[x][y] = CellVectors.NUMBERS[bombs_found-1]
 			else:
 				cell_array[x][y] = CellVectors.BLANK_CELL
-			
+	
+	print(cell_array)
 	generated.emit(cell_array)
 
 func get_nearby_cells(tile_cell : Vector2i, return_pos : bool = false) -> Array:
@@ -93,67 +99,74 @@ func get_nearby_cells(tile_cell : Vector2i, return_pos : bool = false) -> Array:
 	
 	return nearby_cells
 
-func _input(event):
-	if event is InputEventMouseButton:
-		var mouse_pos = get_global_mouse_position()
+func _toggle_reveal_board() -> void:
+	board_revealed = !board_revealed
+	
+	if board_revealed: # revealing cells by using the cell_array data, which has the board generation
+		for y in Config.BOARD_HEIGHT:
+			for x in Config.BOARD_WIDTH:
+				var tile_pos = Vector2i(x + Config.STARTING_POS.x, y + Config.STARTING_POS.y)
+				var cell_data = cell_array[x][y]
+				set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
+				Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, cell_data))
+	else: # restoring cells by using the player_array aka what the player sees
+		for y in Config.BOARD_HEIGHT:
+			for x in Config.BOARD_WIDTH:
+				var tile_pos = Vector2i(x + Config.STARTING_POS.x, y + Config.STARTING_POS.y)
+				var player_cell_data = player_array[x][y]
+				set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
+				Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, player_cell_data))
+
+func _reveal_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
+	var tile_data = cell_array[tile_array_pos.x][tile_array_pos.y]
+	var tile_data_player = player_array[tile_array_pos.x][tile_array_pos.y]
+	
+	if tile_data_player != CellVectors.UNEXPLORED_CELL: return
+	if tile_data == CellVectors.BOMB_CELL:
+		#TODO: create a flashing effect of the bomb exploding / alternating between explosion and bomb tile cell
+		set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
+		Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
+		player_array[tile_array_pos.x][tile_array_pos.y] = tile_data
 		
-		if event.pressed:
-			var tile_pos = Vector2i((mouse_pos / Config.CELL_SIZE).floor())
-			var tile_array_pos = Vector2i((mouse_pos / Config.CELL_SIZE).floor()) - Config.STARTING_POS
-			print(tile_pos, tile_array_pos)
+		game_over()
+		return
+		
+	print("REVEALED: ", tile_data)
+		
+	if tile_data == CellVectors.BLANK_CELL:
+		var cells_to_reveal : Array = _flood_fill(tile_array_pos)
+		
+		for cell_pos in cells_to_reveal:
+			var reveal_tile_pos = cell_pos + Config.STARTING_POS
+			var cell_data = cell_array[cell_pos.x][cell_pos.y]
 			
-			if tile_array_pos.x < 0 or tile_array_pos.y < 0 or tile_array_pos.x >= Config.BOARD_WIDTH or tile_array_pos.y >= Config.BOARD_HEIGHT: 
-				print("not inside board bounds")
-				return
-			
-			var tile_data = cell_array[tile_array_pos.x][tile_array_pos.y]
-			var tile_data_player = player_array[tile_array_pos.x][tile_array_pos.y]
-			
-			if event.button_index == MouseButton.MOUSE_BUTTON_LEFT: # open tile cell up / detect nearby cells with array
-				if tile_data_player != CellVectors.UNEXPLORED_CELL: return
-				if tile_data == CellVectors.BOMB_CELL:
-					# create a flashing effect of the bomb exploding / alternating between explosion and bomb tile cell
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
-					Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
-					game_over()
-					return
-				
-				print("REVEALED: ", tile_data)
-				
-				if tile_data == CellVectors.BLANK_CELL:
-					var cells_to_reveal : Array = _flood_fill(tile_array_pos)
-					
-					for cell_pos in cells_to_reveal:
-						var reveal_tile_pos = cell_pos + Config.STARTING_POS
-						var cell_data = cell_array[cell_pos.x][cell_pos.y]
-						
-						set_cell(Vector2(reveal_tile_pos.x, reveal_tile_pos.y), 0,
-						Vector2i((reveal_tile_pos.x + (reveal_tile_pos.y % 2)) % 2, cell_data))
-						player_array[cell_pos.x][cell_pos.y] = cell_data
-				
-				else:
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
-					Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
-					player_array[tile_array_pos.x][tile_array_pos.y] = tile_data
-				
-			if event.button_index == MouseButton.MOUSE_BUTTON_RIGHT: # place down flag / remove flag
-				print("FLAGGED CELL: ", tile_data)
-				
-				if tile_data_player == CellVectors.FLAGGED_CELL:
-					flags += 1
-					
-					player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.UNEXPLORED_CELL
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
-					Vector2((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.UNEXPLORED_CELL))
-					
-					return
-					
-				flags -= 1
-				
-				if tile_data_player == 0:
-					player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.FLAGGED_CELL
-					set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
-					Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.FLAGGED_CELL))
+			set_cell(Vector2(reveal_tile_pos.x, reveal_tile_pos.y), 0,
+			Vector2i((reveal_tile_pos.x + (reveal_tile_pos.y % 2)) % 2, cell_data))
+			player_array[cell_pos.x][cell_pos.y] = cell_data
+		return
+	
+	set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
+	Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
+	player_array[tile_array_pos.x][tile_array_pos.y] = tile_data
+
+func _flag_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
+	var tile_data_player = player_array[tile_array_pos.x][tile_array_pos.y]
+	
+	if tile_data_player == CellVectors.FLAGGED_CELL:
+		#flags += 1
+		
+		player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.UNEXPLORED_CELL
+		set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
+		Vector2((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.UNEXPLORED_CELL))
+		
+		return
+		
+	#flags -= 1
+	
+	if tile_data_player == 0:
+		player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.FLAGGED_CELL
+		set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
+		Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.FLAGGED_CELL))
 
 func _flood_fill(tile_pos : Vector2i) -> Array:
 	var checked = []

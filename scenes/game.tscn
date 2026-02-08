@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bouewfwao61xb" path="res://scenes/cell_tiles.tscn" id="1_80nbo"]
 [ext_resource type="Texture2D" uid="uid://sko0oluxy7ar" path="res://assets/textures/modern/Game_title.png" id="1_feb5d"]
 [ext_resource type="PackedScene" uid="uid://cbe228e4f3rps" path="res://scenes/background.tscn" id="1_lnu2h"]
+[ext_resource type="Script" uid="uid://40nkmeoxhv5v" path="res://scripts/input/input_handler.gd" id="4_lbhrr"]
 
 [node name="game" type="Node2D" unique_id=555629509]
 
@@ -22,5 +23,11 @@ texture = ExtResource("1_feb5d")
 [node name="Timer" type="Timer" parent="." unique_id=1788367816]
 autostart = true
 
+[node name="InputHandler" type="Node" parent="." unique_id=2069429051]
+script = ExtResource("4_lbhrr")
+
 [connection signal="generated" from="board" to="background" method="_on_board_generated"]
 [connection signal="timeout" from="Timer" to="board" method="_on_timer_timeout"]
+[connection signal="debug_reveal_toggle" from="InputHandler" to="board" method="_toggle_reveal_board"]
+[connection signal="left_click" from="InputHandler" to="board" method="_reveal_cell"]
+[connection signal="right_click" from="InputHandler" to="board" method="_flag_cell"]

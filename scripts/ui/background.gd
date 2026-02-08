@@ -53,22 +53,22 @@ func generate_board_borders() -> void:
 
 func generate_background() -> void:
 	var board_width = Config.BOARD_WIDTH + (Config.STARTING_POS.x * 2)
-	var board_height = Config.BOARD_HEIGHT + (Config.STARTING_POS.y * 2)
+	var board_height = Config.BOARD_HEIGHT - Config.BOTTOM_MARGIN + (Config.STARTING_POS.y * 2)
 	
 	for x in board_width:
 		for y in board_height:
-			var cell_coordinates : Vector2i = CellVectors.DEBUG_CELL if Config.DEBUG else CellVectors.BACKGROUND_CELL_LIGHT
+			var cell_coordinates : Vector2i = CellVectors.DEBUG_CELL if Config.DEBUG_TILES else CellVectors.BACKGROUND_CELL_LIGHT
 			
 			# Outermost edge (darkest background)
-			if x == 0 or x == board_width - 1 or y == 0 or y == board_height - 1:
+			if x <= 0 or x == board_width - 1 or y <= Config.TOP_MARGIN - 1 or y == board_height - 1:
 				cell_coordinates = CellVectors.BACKGROUND_CELL_DARK
 			
 			# Second layer (transition cells)
-			elif x == 1 or x == board_width - 2 or y == 1 or y == board_height - 2:
+			elif x == 1 or x == board_width - 2 or y == Config.TOP_MARGIN or y == board_height - 2:
 				# Corner transitions
-				if x == 1 and y == 1: # top left corner
+				if x == 1 and y == Config.TOP_MARGIN: # top left corner
 					cell_coordinates = CellVectors.CURVED_TRANSITION_CELL_LT
-				elif x == board_width - 2 and y == 1: # top right corner
+				elif x == board_width - 2 and y == Config.TOP_MARGIN: # top right corner
 					cell_coordinates = CellVectors.CURVED_TRANSITION_CELL_RT
 				elif x == board_width - 2 and y == board_height - 2: # bottom right corner
 					cell_coordinates = CellVectors.CURVED_TRANSITION_CELL_RB
@@ -76,7 +76,7 @@ func generate_background() -> void:
 					cell_coordinates = CellVectors.CURVED_TRANSITION_CELL_LB
 				
 				# Straight edge transitions
-				elif y == 1: # top edge
+				elif y == Config.TOP_MARGIN: # top edge
 					cell_coordinates = CellVectors.STRAIGHT_TRANSITION_CELL_TOP
 				elif y == board_height - 2: # bottom edge
 					cell_coordinates = CellVectors.STRAIGHT_TRANSITION_CELL_BOTTOM
@@ -85,5 +85,5 @@ func generate_background() -> void:
 				elif x == board_width - 2: # right edge
 					cell_coordinates = CellVectors.STRAIGHT_TRANSITION_CELL_RIGHT
 			
-			background_bottom.set_cell(Vector2(x, y), 2, (CellVectors.DEBUG_CELL if Config.DEBUG else CellVectors.BACKGROUND_CELL_LIGHT))
+			background_bottom.set_cell(Vector2(x, y), 2, (CellVectors.DEBUG_CELL if Config.DEBUG_TILES else CellVectors.BACKGROUND_CELL_LIGHT))
 			background_top.set_cell(Vector2(x, y), 2, cell_coordinates)
