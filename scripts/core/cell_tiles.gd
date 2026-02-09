@@ -21,7 +21,7 @@ func _ready() -> void:
 
 @warning_ignore("unused_parameter")
 func game_over() -> void:
-	pass
+	generate_board()
 	#TODO: show ui for playing again and stats. Leave stats empty if game_over was initiated by dying
 	#TODO: store the current time locally if initiated by winning
 	#TODO: button to generate a new board / play again
