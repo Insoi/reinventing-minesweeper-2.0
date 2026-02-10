@@ -1,7 +1,7 @@
 extends Node
 
-const BOARD_HEIGHT : int = 10
-const BOARD_WIDTH : int = 20
+const BOARD_HEIGHT : int = 8
+const BOARD_WIDTH : int = 8
 const CELL_SIZE : int = 16
 
 const TOP_MARGIN : int = 4 # how much the top dark background layer should go down

@@ -4,8 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://sko0oluxy7ar" path="res://assets/textures/modern/Game_title.png" id="1_feb5d"]
 [ext_resource type="PackedScene" uid="uid://cbe228e4f3rps" path="res://scenes/background.tscn" id="1_lnu2h"]
 [ext_resource type="Script" uid="uid://40nkmeoxhv5v" path="res://scripts/input/input_handler.gd" id="4_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://bjyxufhvcx7ts" path="res://scenes/Interface.tscn" id="5_iywne"]
 
 [node name="game" type="Node2D" unique_id=555629509]
+
+[node name="Interface" parent="." unique_id=849257126 instance=ExtResource("5_iywne")]
+z_index = 5
 
 [node name="background" parent="." unique_id=1306923250 instance=ExtResource("1_lnu2h")]
 
@@ -26,6 +30,7 @@ autostart = true
 [node name="InputHandler" type="Node" parent="." unique_id=2069429051]
 script = ExtResource("4_lbhrr")
 
+[connection signal="generated" from="board" to="Interface" method="_on_board_generated"]
 [connection signal="generated" from="board" to="background" method="_on_board_generated"]
 [connection signal="timeout" from="Timer" to="board" method="_on_timer_timeout"]
 [connection signal="debug_reveal_toggle" from="InputHandler" to="board" method="_toggle_reveal_board"]
