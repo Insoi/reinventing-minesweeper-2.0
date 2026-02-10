@@ -14,7 +14,7 @@
 script = ExtResource("1_mp4eq")
 
 [node name="time_label" type="Sprite2D" parent="." unique_id=1314728797]
-position = Vector2(-52, 11)
+position = Vector2(-43, -11)
 texture = ExtResource("1_8n1tq")
 
 [node name="counter" type="HBoxContainer" parent="time_label" unique_id=384174567]
@@ -30,9 +30,10 @@ value = 2
 digits = 3
 spacing = -1
 metadata/_custom_type_script = "uid://b8g80kr623fce"
+metadata/_edit_use_anchors_ = true
 
 [node name="flag_label" type="Sprite2D" parent="." unique_id=1645827138]
-position = Vector2(52, 11)
+position = Vector2(43, -11)
 texture = ExtResource("4_x3nq5")
 
 [node name="counter" type="HBoxContainer" parent="flag_label" unique_id=958258663]
@@ -48,13 +49,15 @@ value = 25
 digits = 3
 spacing = -1
 metadata/_custom_type_script = "uid://b8g80kr623fce"
+metadata/_edit_use_anchors_ = true
 
 [node name="face_button" type="Button" parent="." unique_id=1831337993]
 offset_left = -11.0
+offset_top = -22.0
 offset_right = 11.0
-offset_bottom = 22.0
 flat = true
 icon_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="background" type="Sprite2D" parent="face_button" unique_id=17385118]
 position = Vector2(11, 11)
@@ -65,11 +68,12 @@ position = Vector2(11, 11)
 texture = ExtResource("7_fl70i")
 
 [node name="settings_button" type="Button" parent="." unique_id=80950692]
-offset_left = 93.0
-offset_right = 115.0
-offset_bottom = 22.0
+offset_left = 75.0
+offset_top = -22.0
+offset_right = 97.0
 flat = true
 icon_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="background" type="Sprite2D" parent="settings_button" unique_id=1919203832]
 position = Vector2(11, 11)
@@ -80,11 +84,12 @@ position = Vector2(11, 10)
 texture = ExtResource("8_aamtk")
 
 [node name="leaderboard_button" type="Button" parent="." unique_id=84167017]
-offset_left = -114.0
-offset_right = -92.0
-offset_bottom = 22.0
+offset_left = -97.0
+offset_top = -22.0
+offset_right = -75.0
 flat = true
 icon_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="background" type="Sprite2D" parent="leaderboard_button" unique_id=1585927986]
 position = Vector2(11, 11)
