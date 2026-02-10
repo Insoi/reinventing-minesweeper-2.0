@@ -1,11 +1,17 @@
 extends TileMapLayer
+class_name board
 
 signal generated(cell_array : Array)
+signal flag_change(count : int)
 #signal cell_revealed(position: Vector2i, cell_value: int)
 #signal game_won
 #signal game_lost
 
-var flags = Config.BOMBS
+@export var flags : int = Config.BOMBS:
+	set(value):
+		flags = value
+		flag_change.emit(value)
+
 var cell_array = []
 var player_array = []
 
@@ -19,15 +25,23 @@ func _ready() -> void:
 	get_window().size = Vector2(x_size, y_size) * 2 # 2 since pixels are double
 	generate_board()
 
-@warning_ignore("unused_parameter")
-func game_over() -> void:
+func game_over(lost : bool) -> void:
 	generate_board()
+	
+	if not lost:
+		print("GAME OVER: (! REASON: CLEARED BOARD) / ", lost)
+	else:
+		print("GAME OVER: (! REASON: LOST) / ", lost)
+	
+	#TODO: Show whole board, can easily do with _toggle_reveal_board()
 	#TODO: show ui for playing again and stats. Leave stats empty if game_over was initiated by dying
 	#TODO: store the current time locally if initiated by winning
-	#TODO: button to generate a new board / play again
+	#TODO: button to generate a new board / play again - DO NOT let this ui overlay on the board itself
 
 func generate_board() -> void:
 	cell_array.clear()
+	board_revealed = false
+	flags = Config.BOMBS
 	
 	#build new 2D array
 	for x in Config.BOARD_WIDTH:
@@ -128,7 +142,7 @@ func _reveal_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 		Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
 		player_array[tile_array_pos.x][tile_array_pos.y] = tile_data
 		
-		game_over()
+		game_over(true)
 		return
 		
 	print("REVEALED: ", tile_data)
@@ -148,12 +162,14 @@ func _reveal_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 	set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
 	Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
 	player_array[tile_array_pos.x][tile_array_pos.y] = tile_data
+	
+	_check_win_condition()
 
 func _flag_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 	var tile_data_player = player_array[tile_array_pos.x][tile_array_pos.y]
 	
 	if tile_data_player == CellVectors.FLAGGED_CELL:
-		#flags += 1
+		flags += 1
 		
 		player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.UNEXPLORED_CELL
 		set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
@@ -161,7 +177,7 @@ func _flag_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 		
 		return
 		
-	#flags -= 1
+	flags -= 1
 	
 	if tile_data_player == 0:
 		player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.FLAGGED_CELL
@@ -196,5 +212,15 @@ func _flood_fill(tile_pos : Vector2i) -> Array:
 	
 	return cells_to_reveal
 
-func _on_timer_timeout():
-	print("wait")
+func _check_win_condition() -> void:
+	var total_cells = Config.BOARD_WIDTH * Config.BOARD_HEIGHT
+	var cells_to_reveal = total_cells - Config.BOMBS
+	var revealed_count = 0
+	
+	for y in Config.BOARD_HEIGHT:
+		for x in Config.BOARD_WIDTH:
+			if player_array[x][y] != CellVectors.UNEXPLORED_CELL and player_array[x][y] != CellVectors.FLAGGED_CELL:
+				revealed_count += 1
+	
+	if revealed_count == cells_to_reveal:
+		game_over(false)

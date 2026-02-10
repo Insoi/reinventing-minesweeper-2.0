@@ -30,6 +30,7 @@ autostart = true
 [node name="InputHandler" type="Node" parent="." unique_id=2069429051]
 script = ExtResource("4_lbhrr")
 
+[connection signal="flag_change" from="board" to="Interface" method="_on_board_flag_change"]
 [connection signal="generated" from="board" to="Interface" method="_on_board_generated"]
 [connection signal="generated" from="board" to="background" method="_on_board_generated"]
 [connection signal="timeout" from="Timer" to="board" method="_on_timer_timeout"]

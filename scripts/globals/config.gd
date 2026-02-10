@@ -1,11 +1,11 @@
 extends Node
 
 # GENERAL / BOARD
-const BOARD_HEIGHT : int = 10
-const BOARD_WIDTH : int = 15
+const BOARD_HEIGHT : int = 15
+const BOARD_WIDTH : int = 25
 const CELL_SIZE : int = 16
 @warning_ignore("narrowing_conversion")
-const BOMBS : int = (float(BOARD_HEIGHT * BOARD_WIDTH) / 100.0) * 14 # as in 20% of the total cells on the board
+const BOMBS : int = 67 #(float(BOARD_HEIGHT * BOARD_WIDTH) / 100.0) * 19 # as in 20% of the total cells on the board
 
 # BACKGROUND
 const TOP_MARGIN : int = 3 # how much the top dark background layer should go down
