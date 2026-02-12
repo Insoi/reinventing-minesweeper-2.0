@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bbndtfbj643j6" path="res://assets/textures/modern/face_unhappy.png" id="7_fl70i"]
 [ext_resource type="Texture2D" uid="uid://bpa0htwsnht7c" path="res://assets/textures/modern/cogwheel.png" id="8_aamtk"]
 [ext_resource type="Texture2D" uid="uid://co8jwka5b8kaj" path="res://assets/textures/modern/lightbulb.png" id="9_28yqi"]
+[ext_resource type="PackedScene" uid="uid://csmlbhkp7nx7w" path="res://scenes/default_frame.tscn" id="10_fl70i"]
 
 [node name="Interface" type="Node2D" unique_id=849257126]
 script = ExtResource("1_mp4eq")
@@ -44,7 +45,6 @@ theme_override_constants/separation = 0
 alignment = 1
 script = ExtResource("2_mp4eq")
 texture = ExtResource("3_crscu")
-value = 49
 digits = 3
 metadata/_custom_type_script = "uid://b8g80kr623fce"
 metadata/_edit_use_anchors_ = true
@@ -96,3 +96,6 @@ texture = ExtResource("6_5vriu")
 [node name="icon" type="Sprite2D" parent="leaderboard_button" unique_id=1288596674]
 position = Vector2(11, 11)
 texture = ExtResource("9_28yqi")
+
+[node name="default_frame" parent="." unique_id=1612783258 instance=ExtResource("10_fl70i")]
+position = Vector2(0, 17)
