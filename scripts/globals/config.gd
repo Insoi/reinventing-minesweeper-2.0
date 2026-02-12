@@ -4,10 +4,11 @@ extends Node
 const CELL_SIZE : int = 16
 var BOARD_HEIGHT : int = 10
 var BOARD_WIDTH : int = 10
+var bombs_percentage : int = 10
 var BOMBS : int:
 	get:
 		@warning_ignore("narrowing_conversion")
-		return (float(BOARD_HEIGHT * BOARD_WIDTH) / 100.0) * 14 # as in 20% of the total cells on the board
+		return (float(BOARD_HEIGHT * BOARD_WIDTH) / 100.0) * bombs_percentage # as in 20% of the total cells on the board
 
 # BACKGROUND
 const TOP_MARGIN : int = 3 # how much the top dark background layer should go down
@@ -20,3 +21,6 @@ const INTERFACE_MARGIN : float = 1.9
 # DEBUGGING
 const DEBUG_TILES : bool = false
 const DEBUG_BOARD : bool = true
+
+# FONTS
+var Qaroxe = preload("res://assets/textures/modern/Qaroxe.ttf")

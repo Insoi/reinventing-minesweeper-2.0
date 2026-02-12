@@ -21,7 +21,7 @@ func _ready() -> void:
 	generate_board()
 
 func game_over(lost : bool) -> void:
-	Config.BOARD_WIDTH += 3
+	#Config.BOARD_WIDTH += 3
 	generate_board()
 	
 	if not lost:
@@ -35,6 +35,8 @@ func game_over(lost : bool) -> void:
 	#TODO: button to generate a new board / play again - DO NOT let this ui overlay on the board itself
 
 func _clear_board() -> void:
+	clear()
+	
 	cell_array.clear()
 	player_array.clear()
 	board_revealed = false

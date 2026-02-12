@@ -41,6 +41,10 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="Reinventing Minesweeper 2.0"
 
+[gui]
+
+theme/custom_font="uid://d0ulyq0uw37q0"
+
 [input]
 
 reveal_board_toggle={

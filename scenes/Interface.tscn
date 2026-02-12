@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bjyxufhvcx7ts"]
 
 [ext_resource type="Texture2D" uid="uid://b6igumko6dxhv" path="res://assets/textures/modern/time_count.png" id="1_8n1tq"]
-[ext_resource type="Script" uid="uid://dn6238i6d2ul5" path="res://scenes/interface_main.gd" id="1_mp4eq"]
+[ext_resource type="Script" uid="uid://dn6238i6d2ul5" path="res://scripts/interface_main.gd" id="1_mp4eq"]
 [ext_resource type="Script" uid="uid://b8g80kr623fce" path="res://tools/SegmentCounter/SegmentCounter.gd" id="2_mp4eq"]
 [ext_resource type="Texture2D" uid="uid://dxyvb7iig5l8m" path="res://assets/textures/modern/numbers_tileset.png" id="3_crscu"]
 [ext_resource type="Texture2D" uid="uid://cggbrdldemkcc" path="res://assets/textures/modern/flag_count.png" id="4_x3nq5"]
@@ -9,8 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bbndtfbj643j6" path="res://assets/textures/modern/face_unhappy.png" id="7_fl70i"]
 [ext_resource type="Texture2D" uid="uid://bpa0htwsnht7c" path="res://assets/textures/modern/cogwheel.png" id="8_aamtk"]
 [ext_resource type="Texture2D" uid="uid://co8jwka5b8kaj" path="res://assets/textures/modern/lightbulb.png" id="9_28yqi"]
-[ext_resource type="FontFile" uid="uid://d0ulyq0uw37q0" path="res://assets/textures/modern/Qaroxe.ttf" id="9_fl70i"]
-[ext_resource type="Script" uid="uid://4wau4xr3wlw7" path="res://scenes/menu_button.gd" id="10_aamtk"]
+[ext_resource type="Script" uid="uid://4wau4xr3wlw7" path="res://scripts/menu_button.gd" id="9_fl70i"]
 
 [node name="Interface" type="Node2D" unique_id=849257126]
 script = ExtResource("1_mp4eq")
@@ -66,14 +65,6 @@ texture = ExtResource("6_5vriu")
 position = Vector2(11, 11)
 texture = ExtResource("7_fl70i")
 
-[node name="settings_button" type="Button" parent="." unique_id=80950692]
-offset_left = 75.0
-offset_top = -22.0
-offset_right = 97.0
-flat = true
-icon_alignment = 1
-metadata/_edit_use_anchors_ = true
-
 [node name="leaderboard_button" type="Button" parent="." unique_id=84167017]
 offset_left = -97.0
 offset_top = -22.0
@@ -90,18 +81,22 @@ texture = ExtResource("6_5vriu")
 position = Vector2(11, 11)
 texture = ExtResource("9_28yqi")
 
-[node name="MenuButton" type="MenuButton" parent="." unique_id=1768612429]
+[node name="menu_button" type="MenuButton" parent="." unique_id=702367534]
 offset_left = 75.0
 offset_top = -22.0
-offset_right = 91.0
-offset_bottom = -6.0
-theme_override_fonts/font = ExtResource("9_fl70i")
-script = ExtResource("10_aamtk")
+offset_right = 97.0
+icon_alignment = 1
+script = ExtResource("9_fl70i")
 
-[node name="background" type="Sprite2D" parent="MenuButton" unique_id=1919203832]
+[node name="icon" type="Sprite2D" parent="menu_button" unique_id=394123405]
+z_index = 1
+position = Vector2(11, 11)
+texture = ExtResource("8_aamtk")
+
+[node name="background" type="Sprite2D" parent="menu_button" unique_id=1913832481]
 position = Vector2(11, 11)
 texture = ExtResource("6_5vriu")
 
-[node name="icon" type="Sprite2D" parent="MenuButton" unique_id=1212879593]
-position = Vector2(11, 10)
-texture = ExtResource("8_aamtk")
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=453170654]
+offset_right = 40.0
+offset_bottom = 40.0
