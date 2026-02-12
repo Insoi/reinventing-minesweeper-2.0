@@ -5,13 +5,13 @@ extends Node2D
 @onready var board_borders = get_node("board_borders")
 
 func _on_board_generated(cell_array: Array) -> void:
+	print("GENERATED BORDERS : ", cell_array)
+	
 	generate_board_borders()
 	generate_background()
-	
-	print("GENERATED BORDERS : ", cell_array)
 
 func generate_board_borders() -> void:
-		# top border (right corner, top cells, left corner)
+	# top border (right corner, top cells, left corner)
 	for x in Config.BOARD_WIDTH + 2:
 		var cell_coordinates : Vector2i = CellVectors.BOARD_TOP_CELL
 		var cell_pos : Vector2 = Vector2(x + (Config.STARTING_POS.x - 1), Config.STARTING_POS.y - 1)

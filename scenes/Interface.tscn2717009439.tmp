@@ -93,9 +93,12 @@ texture = ExtResource("9_28yqi")
 [node name="MenuButton" type="MenuButton" parent="." unique_id=1768612429]
 offset_left = 75.0
 offset_top = -22.0
-offset_right = 91.0
-offset_bottom = -6.0
+offset_right = 97.0
 theme_override_fonts/font = ExtResource("9_fl70i")
+item_count = 1
+popup/item_0/text = "test_selection"
+popup/item_0/checkable = 1
+popup/item_0/id = 0
 script = ExtResource("10_aamtk")
 
 [node name="background" type="Sprite2D" parent="MenuButton" unique_id=1919203832]

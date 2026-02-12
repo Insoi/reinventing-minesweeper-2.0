@@ -7,7 +7,7 @@ signal flag_change(count : int)
 #signal game_won
 #signal game_lost
 
-@export var flags : int = Config.BOMBS:
+@export var flags = Config.BOMBS:
 	set(value):
 		flags = value
 		flag_change.emit(value)
@@ -18,14 +18,10 @@ var player_array = []
 var board_revealed = false
 
 func _ready() -> void:
-	var x_size = (Config.STARTING_POS.x * 2 + Config.BOARD_WIDTH) * Config.CELL_SIZE
-	var y_size = (Config.STARTING_POS.y * 2 + (Config.BOARD_HEIGHT - Config.BOTTOM_MARGIN)) * Config.CELL_SIZE
-	print(Config.BOMBS)
-	
-	get_window().size = Vector2(x_size, y_size) * 2 # 2 since pixels are double
 	generate_board()
 
 func game_over(lost : bool) -> void:
+	Config.BOARD_WIDTH += 3
 	generate_board()
 	
 	if not lost:
@@ -38,10 +34,23 @@ func game_over(lost : bool) -> void:
 	#TODO: store the current time locally if initiated by winning
 	#TODO: button to generate a new board / play again - DO NOT let this ui overlay on the board itself
 
-func generate_board() -> void:
+func _clear_board() -> void:
 	cell_array.clear()
+	player_array.clear()
 	board_revealed = false
+
+func _set_window_size() -> void:
+	var x_size = (Config.STARTING_POS.x * 2 + Config.BOARD_WIDTH) * Config.CELL_SIZE
+	var y_size = (Config.STARTING_POS.y * 2 + (Config.BOARD_HEIGHT - Config.BOTTOM_MARGIN)) * Config.CELL_SIZE
+	
+	get_window().size = Vector2(x_size, y_size) * 2
+
+func generate_board() -> void:
+	_clear_board()
+	_set_window_size()
 	flags = Config.BOMBS
+	
+	print(Config.BOMBS)
 	
 	#build new 2D array
 	for x in Config.BOARD_WIDTH:
@@ -88,7 +97,7 @@ func generate_board() -> void:
 			else:
 				cell_array[x][y] = CellVectors.BLANK_CELL
 	
-	print(cell_array)
+	print("GENERATED NEW BOARD : ", cell_array)
 	generated.emit(cell_array)
 
 func get_nearby_cells(tile_cell : Vector2i, return_pos : bool = false) -> Array:
