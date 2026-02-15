@@ -1,5 +1,5 @@
 extends TileMapLayer
-class_name board
+#class_name board
 
 signal generated(cell_array : Array)
 signal flag_change(count : int)
@@ -52,9 +52,11 @@ func generate_board() -> void:
 	_set_window_size()
 	flags = Config.BOMBS
 	
+	print(Config.BOMBS)
+	
 	#build new 2D array
 	for x in Config.BOARD_WIDTH:
-		var row = []
+		var row: Array[int] = []
 		for y in Config.BOARD_HEIGHT:
 			row.append(0)
 		cell_array.append(row)
@@ -71,7 +73,7 @@ func generate_board() -> void:
 	
 	# place down x amt bombs randomly
 	for i in Config.BOMBS:
-		var random_pos = Vector2i(randi_range(0, Config.BOARD_HEIGHT-1), randi_range(0, Config.BOARD_WIDTH-1))
+		var random_pos: Vector2i = Vector2i(randi_range(0, Config.BOARD_HEIGHT-1), randi_range(0, Config.BOARD_WIDTH-1))
 		var found_cell = cell_array[random_pos.y][random_pos.x]
 		
 		while found_cell == CellVectors.BOMB_CELL:
@@ -112,7 +114,7 @@ func get_nearby_cells(tile_cell : Vector2i, return_pos : bool = false) -> Array:
 	
 	# check all directions and append to array if direction is in the board bounds
 	for direction in directions:
-		var check_pos = tile_cell + direction
+		var check_pos: Vector2i = tile_cell + direction
 		
 		if check_pos.x >= 0 and check_pos.x < Config.BOARD_WIDTH and check_pos.y >= 0 and check_pos.y < Config.BOARD_HEIGHT:
 			if return_pos:
@@ -128,14 +130,14 @@ func _toggle_reveal_board() -> void:
 	if board_revealed: # revealing cells by using the cell_array data, which has the board generation
 		for y in Config.BOARD_HEIGHT:
 			for x in Config.BOARD_WIDTH:
-				var tile_pos = Vector2i(x + Config.STARTING_POS.x, y + Config.STARTING_POS.y)
+				var tile_pos: Vector2i = Vector2i(x + Config.STARTING_POS.x, y + Config.STARTING_POS.y)
 				var cell_data = cell_array[x][y]
 				set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
 				Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, cell_data))
 	else: # restoring cells by using the player_array aka what the player sees
 		for y in Config.BOARD_HEIGHT:
 			for x in Config.BOARD_WIDTH:
-				var tile_pos = Vector2i(x + Config.STARTING_POS.x, y + Config.STARTING_POS.y)
+				var tile_pos: Vector2i = Vector2i(x + Config.STARTING_POS.x, y + Config.STARTING_POS.y)
 				var player_cell_data = player_array[x][y]
 				set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
 				Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, player_cell_data))
@@ -224,7 +226,7 @@ func _flood_fill(tile_pos : Vector2i) -> Array:
 func _check_win_condition() -> void:
 	var total_cells = Config.BOARD_WIDTH * Config.BOARD_HEIGHT
 	var cells_to_reveal = total_cells - Config.BOMBS
-	var revealed_count = 0
+	var revealed_count: int = 0
 	
 	for y in Config.BOARD_HEIGHT:
 		for x in Config.BOARD_WIDTH:
