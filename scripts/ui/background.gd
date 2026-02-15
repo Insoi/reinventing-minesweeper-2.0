@@ -12,9 +12,9 @@ func _on_board_generated(cell_array: Array) -> void:
 
 func generate_board_borders() -> void:
 	# top border (right corner, top cells, left corner)
-	for x in Config.BOARD_WIDTH + 2:
-		var cell_coordinates : Vector2i = CellVectors.BOARD_TOP_CELL
-		var cell_pos : Vector2 = Vector2(x + (Config.STARTING_POS.x - 1), Config.STARTING_POS.y - 1)
+	for x: int in Config.BOARD_WIDTH + 2:
+		var cell_coordinates: Vector2i = CellVectors.BOARD_TOP_CELL
+		var cell_pos: Vector2 = Vector2(x + (Config.STARTING_POS.x - 1), Config.STARTING_POS.y - 1)
 		
 		if x == 0: # top left corner
 			cell_coordinates = CellVectors.BOARD_L_TOP_CORNER_CELL
@@ -24,7 +24,7 @@ func generate_board_borders() -> void:
 		board_borders.set_cell(cell_pos, 2, cell_coordinates)
 	
 	# bottom border (right corner, bottom cells, left corner)
-	for x in Config.BOARD_WIDTH + 2:
+	for x: int in Config.BOARD_WIDTH + 2:
 		var cell_coordinates : Vector2i = CellVectors.BOARD_BOTTOM_CELL
 		var cell_pos : Vector2 = Vector2(
 			x + (Config.STARTING_POS.x - 1),
@@ -38,7 +38,7 @@ func generate_board_borders() -> void:
 		board_borders.set_cell(cell_pos, 2, cell_coordinates)
 	
 	# left and right borders
-	for y in Config.BOARD_HEIGHT:
+	for y: int in Config.BOARD_HEIGHT:
 		var left_cell_pos: Vector2 = Vector2(Config.STARTING_POS.x - 1, y + Config.STARTING_POS.y)
 		board_borders.set_cell(left_cell_pos, 2, CellVectors.BOARD_L_CELL)
 		
@@ -52,12 +52,12 @@ func generate_board_borders() -> void:
 		)
 
 func generate_background() -> void:
-	var board_width = Config.BOARD_WIDTH + (Config.STARTING_POS.x * 2)
-	var board_height = Config.BOARD_HEIGHT - Config.BOTTOM_MARGIN + (Config.STARTING_POS.y * 2)
+	var board_width: int = Config.BOARD_WIDTH + (Config.STARTING_POS.x * 2)
+	var board_height: int = Config.BOARD_HEIGHT - Config.BOTTOM_MARGIN + (Config.STARTING_POS.y * 2)
 	
-	for x in board_width:
-		for y in board_height:
-			var cell_coordinates : Vector2i = CellVectors.DEBUG_CELL if Config.DEBUG_TILES else CellVectors.BACKGROUND_CELL_LIGHT
+	for x: int in board_width:
+		for y: int in board_height:
+			var cell_coordinates: Vector2i = CellVectors.DEBUG_CELL if Config.DEBUG_TILES else CellVectors.BACKGROUND_CELL_LIGHT
 			
 			# Outermost edge (darkest background)
 			if x <= 0 or x == board_width - 1 or y <= Config.TOP_MARGIN - 1 or y == board_height - 1:

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://t0km24u3ntja"]
 
-[ext_resource type="Script" uid="uid://bcyc7jhljusfl" path="res://scenes/custom_size_settings.gd" id="1_cp130"]
+[ext_resource type="Script" uid="uid://bcyc7jhljusfl" path="res://scripts/ui/custom_size_settings.gd" id="1_cp130"]
 [ext_resource type="FontFile" uid="uid://d0ulyq0uw37q0" path="res://assets/textures/modern/Qaroxe.ttf" id="1_kwpn2"]
 
 [node name="CustomSizeDialog" type="ConfirmationDialog" unique_id=719026800]

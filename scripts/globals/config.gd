@@ -23,4 +23,4 @@ const DEBUG_TILES : bool = false
 const DEBUG_BOARD : bool = true
 
 # FONTS
-var Qaroxe = preload("res://assets/textures/modern/Qaroxe.ttf")
+var Qaroxe: FontFile = preload("res://assets/textures/modern/Qaroxe.ttf")

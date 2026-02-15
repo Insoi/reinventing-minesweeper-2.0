@@ -3,7 +3,7 @@
 class_name SegmentCounter
 extends HBoxContainer
 
-const DIGIT_NODE_PREFIX := "_SEGMENT_DISPLAY_"
+const DIGIT_NODE_PREFIX: String = "_SEGMENT_DISPLAY_"
 
 var _value: int = 0
 var _digits: int = 1
@@ -28,8 +28,8 @@ var _digits: int = 1
 	set(new_value):
 		if new_value > 0:
 			_digits = new_value
-		var min_val = -(2**63) if allow_negative else 0
-		var max_val = int(pow(10, _digits)) - 1
+		var min_val: int = -(2**63) if allow_negative else 0
+		var max_val: int = int(pow(10, _digits)) - 1
 		_value = clampi(_value, min_val, max_val)
 		update()
 
@@ -48,18 +48,18 @@ func update() -> void:
 		push_warning("Texture is not set !!!!")
 		return
 	
-	for child in get_children():
+	for child: Node in get_children():
 		if child.name.begins_with(DIGIT_NODE_PREFIX):
 			child.queue_free()
 		
-	var value_str := str(_value).pad_zeros(_digits)
-	for digit_char in value_str:
-		var digit_offset := digit_char.unicode_at(0) - '0'.unicode_at(0)
+	var value_str: String = str(_value).pad_zeros(_digits)
+	for digit_char: String in value_str:
+		var digit_offset: int = digit_char.unicode_at(0) - '0'.unicode_at(0)
 		
-		var digit_rect := TextureRect.new()
+		var digit_rect: TextureRect = TextureRect.new()
 		digit_rect.name = DIGIT_NODE_PREFIX + str(randi())
 		
-		var atlas := AtlasTexture.new()
+		var atlas: AtlasTexture = AtlasTexture.new()
 		atlas.atlas = texture
 		atlas.region = Rect2(0 + digit_offset * 9, 0, 9, 10)
 		
