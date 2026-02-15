@@ -52,8 +52,6 @@ func generate_board() -> void:
 	_set_window_size()
 	flags = Config.BOMBS
 	
-	print(Config.BOMBS)
-	
 	#build new 2D array
 	for x in Config.BOARD_WIDTH:
 		var row = []

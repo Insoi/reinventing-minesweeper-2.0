@@ -13,7 +13,7 @@ const BACKGROUND_CELL_DARK: Vector2i = Vector2i(1,7)
 const DEBUG_CELL: Vector2i = Vector2i(0,7)
 
 # transition straight cells
-const STRAIGHT_TRANSITION_CELL_LEFTL: Vector2i = Vector2i(0,1)
+const STRAIGHT_TRANSITION_CELL_LEFT: Vector2i = Vector2i(0,1)
 const STRAIGHT_TRANSITION_CELL_RIGHT: Vector2i = Vector2i(2,6)
 const STRAIGHT_TRANSITION_CELL_TOP: Vector2i = Vector2i(1,0) 
 const STRAIGHT_TRANSITION_CELL_BOTTOM: Vector2i = Vector2i(1,6)
