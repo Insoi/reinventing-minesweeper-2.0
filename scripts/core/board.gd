@@ -12,10 +12,10 @@ signal flag_change(count : int)
 		flags = value
 		flag_change.emit(value)
 
-var cell_array = []
-var player_array = []
+var cell_array: Array[Variant] = []
+var player_array: Array[Variant] = []
 
-var board_revealed = false
+var board_revealed : bool = false
 
 func _ready() -> void:
 	generate_board()
@@ -45,7 +45,7 @@ func _set_window_size() -> void:
 	var x_size = (Config.STARTING_POS.x * 2 + Config.BOARD_WIDTH) * Config.CELL_SIZE
 	var y_size = (Config.STARTING_POS.y * 2 + (Config.BOARD_HEIGHT - Config.BOTTOM_MARGIN)) * Config.CELL_SIZE
 	
-	get_window().size = Vector2(x_size, y_size) * 2
+	get_window().size = Vector2i(x_size, y_size) * 2
 
 func generate_board() -> void:
 	_clear_board()
@@ -88,7 +88,7 @@ func generate_board() -> void:
 			if cell_array[x][y] == CellVectors.BOMB_CELL: continue
 			
 			var bombs_found : int = 0
-			var nearby_cells = get_nearby_cells(Vector2i(x,y))
+			var nearby_cells : Array = get_nearby_cells(Vector2i(x,y))
 			
 			for nearby_cell in nearby_cells:
 				if nearby_cell == CellVectors.BOMB_CELL:
@@ -103,10 +103,10 @@ func generate_board() -> void:
 	generated.emit(cell_array)
 
 func get_nearby_cells(tile_cell : Vector2i, return_pos : bool = false) -> Array:
-	var nearby_cells = []
+	var nearby_cells : Array[Variant] = []
 	
 	# getting all directions surrounding the cells including corners
-	var directions = [
+	var directions : Array[Vector2i] = [
 		Vector2i(-1,-1), Vector2i(0,-1), Vector2i(1,-1), # top left, top, top right
 		Vector2i(-1,0), Vector2i(1,0), # left and right
 		Vector2i(-1,1), Vector2i(0,1), Vector2i(1,1) #bottom left, bottom and bottom right
@@ -196,9 +196,9 @@ func _flag_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 		Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.FLAGGED_CELL))
 
 func _flood_fill(tile_pos : Vector2i) -> Array:
-	var checked = []
-	var queue = [tile_pos]
-	var cells_to_reveal = []
+	var checked: Array[Variant] = []
+	var queue: Array[Variant] = [tile_pos]
+	var cells_to_reveal: Array[Variant] = []
 	
 	while queue.size() > 0:
 		var current = queue.pop_front()
@@ -215,7 +215,7 @@ func _flood_fill(tile_pos : Vector2i) -> Array:
 		cells_to_reveal.append(current)
 		
 		if cell_value == CellVectors.BLANK_CELL:
-			var nearby_positions = get_nearby_cells(current, true)
+			var nearby_positions : Array = get_nearby_cells(current, true)
 			
 			for nearby_pos in nearby_positions:
 				if nearby_pos not in checked:

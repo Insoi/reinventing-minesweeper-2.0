@@ -7,9 +7,9 @@ signal debug_reveal_toggle
 
 func _input(event : InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		var mouse_pos = get_viewport().get_mouse_position()
+		var mouse_pos: Vector2 = get_viewport().get_mouse_position()
 		
-		var tile_pos = Vector2i((mouse_pos / Config.CELL_SIZE).floor())
+		var tile_pos: Vector2i = Vector2i((mouse_pos / Config.CELL_SIZE).floor())
 		var tile_array_pos = Vector2i((mouse_pos / Config.CELL_SIZE).floor()) - Config.STARTING_POS
 		
 		if tile_array_pos.x < 0 or tile_array_pos.y < 0 or tile_array_pos.x >= Config.BOARD_WIDTH or tile_array_pos.y >= Config.BOARD_HEIGHT: 

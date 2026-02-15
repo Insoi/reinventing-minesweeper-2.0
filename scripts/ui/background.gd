@@ -1,8 +1,8 @@
 extends Node2D
 
-@onready var background_top = get_node("background_top")
-@onready var background_bottom = get_node("background_bottom")
-@onready var board_borders = get_node("board_borders")
+@onready var background_top: TileMapLayer = get_node("background_top")
+@onready var background_bottom: TileMapLayer = get_node("background_bottom")
+@onready var board_borders: TileMapLayer = get_node("board_borders")
 
 func _on_board_generated(cell_array: Array) -> void:
 	print("GENERATED BORDERS : ", cell_array)
@@ -39,10 +39,10 @@ func generate_board_borders() -> void:
 	
 	# left and right borders
 	for y in Config.BOARD_HEIGHT:
-		var left_cell_pos = Vector2(Config.STARTING_POS.x - 1, y + Config.STARTING_POS.y)
+		var left_cell_pos: Vector2 = Vector2(Config.STARTING_POS.x - 1, y + Config.STARTING_POS.y)
 		board_borders.set_cell(left_cell_pos, 2, CellVectors.BOARD_L_CELL)
 		
-		var right_cell_pos = Vector2(Config.STARTING_POS.x + Config.BOARD_WIDTH, y + Config.STARTING_POS.y)
+		var right_cell_pos: Vector2 = Vector2(Config.STARTING_POS.x + Config.BOARD_WIDTH, y + Config.STARTING_POS.y)
 		board_borders.set_cell(right_cell_pos, 2, CellVectors.BOARD_R_CELL)
 		
 		board_borders.set_cell(
