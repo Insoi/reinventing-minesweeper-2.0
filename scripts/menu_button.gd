@@ -1,9 +1,11 @@
 extends MenuButton
 
+var custom_id = 4
 var presets = {
-	"Easy (10x10)": {id = 0, width = 10, height = 10, bombs_per = 10}, # Bombs = 10% of the board
-	"Medium (16x14)": {id = 1, width = 16, height = 14, bombs_per = 15},
-	"Hard (24x24)": {id = 2, width = 28, height = 20, bombs_per = 20},
+	"Easy (10x10)": {id = 0, check = false, width = 10, height = 10, bombs_per = 10}, # Bombs = 10% of the board
+	"Medium (16x14)": {id = 1, check = false, width = 16, height = 14, bombs_per = 15},
+	"Hard (24x24)": {id = 2, check = false, width = 28, height = 20, bombs_per = 20},
+	"CRT Shader": {id = 3, check = true}
 }
 
 var custom_dialog_scene = preload("res://scenes/custom_size_dialog.tscn")
@@ -16,9 +18,13 @@ func _ready() -> void:
 	
 	for index in presets:
 		var data = presets[index]
+		if data.check:
+			popup.add_check_item(index, data.id)
+			continue
+		
 		popup.add_item(index, data.id)
 	
-	popup.add_item("Custom...", 3)
+	popup.add_item("Custom...", custom_id)
 	popup.connect("index_pressed", self._on_item_pressed)
 	
 	custom_dialog = custom_dialog_scene.instantiate()
@@ -34,11 +40,18 @@ func _create_new_board(width, height, bombs_per):
 func _on_item_pressed(id : int) -> void:
 	for index in presets:
 		var data = presets[index]
-		if data.id == id:
+		if data.id == id and not data.check:
 			_create_new_board(data.width, data.height, data.bombs_per)
 			return
+		elif data.id == id and data.check:
+			print(get_path())
+			var canvas_layer = get_node("../../CanvasLayer")
+			print(canvas_layer.get_path())
+			#var canvas_layer = get_parent().current_scene.get_node("CanvasLayer")
+			canvas_layer.visible = not canvas_layer.visible
+			return
 			
-	if id == 3:
+	if id == custom_id:
 		custom_dialog.show_dialog()
 
 func _on_custom_size_confirmed(width : int, height : int, bombs_per : int):

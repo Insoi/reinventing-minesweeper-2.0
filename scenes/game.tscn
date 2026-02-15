@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bouewfwao61xb" path="res://scenes/cell_tiles.tscn" id="1_80nbo"]
 [ext_resource type="Texture2D" uid="uid://sko0oluxy7ar" path="res://assets/textures/modern/Game_title.png" id="1_feb5d"]
 [ext_resource type="PackedScene" uid="uid://cbe228e4f3rps" path="res://scenes/background.tscn" id="1_lnu2h"]
-[ext_resource type="Shader" uid="uid://couynyfimohx2" path="res://CRT.gdshader" id="1_p57ef"]
+[ext_resource type="Shader" uid="uid://couynyfimohx2" path="res://scripts/CRT.gdshader" id="1_p57ef"]
 [ext_resource type="Script" uid="uid://40nkmeoxhv5v" path="res://scripts/input/input_handler.gd" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bjyxufhvcx7ts" path="res://scenes/Interface.tscn" id="5_iywne"]
 
