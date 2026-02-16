@@ -12,8 +12,8 @@ signal flag_change(count : int)
 		flags = value
 		flag_change.emit(value)
 
-var cell_array: Array[Variant] = []
-var player_array: Array[Variant] = []
+var cell_array: Array[Array] = []
+var player_array: Array[Array] = []
 
 var board_revealed : bool = false
 
