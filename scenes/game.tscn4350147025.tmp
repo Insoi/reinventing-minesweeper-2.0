@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://d2ah0va8gbi54"]
+
+[ext_resource type="PackedScene" uid="uid://bouewfwao61xb" path="res://scenes/cell_tiles.tscn" id="1_80nbo"]
+[ext_resource type="Texture2D" uid="uid://sko0oluxy7ar" path="res://assets/textures/modern/Game_title.png" id="1_feb5d"]
+[ext_resource type="PackedScene" uid="uid://cbe228e4f3rps" path="res://scenes/background.tscn" id="1_lnu2h"]
+[ext_resource type="Shader" uid="uid://couynyfimohx2" path="res://scripts/CRT.gdshader" id="1_p57ef"]
+[ext_resource type="Script" uid="uid://40nkmeoxhv5v" path="res://scripts/input/input_handler.gd" id="4_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://bjyxufhvcx7ts" path="res://scenes/Interface.tscn" id="5_iywne"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u5sy4"]
+shader = ExtResource("1_p57ef")
+shader_parameter/brightness = 1.0000000475
+shader_parameter/contrast = 1.08
+shader_parameter/saturation = 1.1
+shader_parameter/gamma = 1.05
+shader_parameter/curvature = 0.050000002375
+shader_parameter/corner_soften = 0.10000000475
+shader_parameter/vignette = 0.38
+shader_parameter/scanline_strength = 0.95
+shader_parameter/scanline_density = 1.15
+shader_parameter/interlace_strength = 0.2
+shader_parameter/mask_strength = 0.22
+shader_parameter/mask_scale = 1.0
+shader_parameter/chroma_offset_px = 1.6
+shader_parameter/luma_smear_px = 2.2
+shader_parameter/jitter_px = 0.400000019
+shader_parameter/wobble_px = 1.0000000475
+shader_parameter/tape_noise = 0.22
+shader_parameter/tape_lines = 0.35
+shader_parameter/roll_speed = 0.050000002375
+shader_parameter/roll_strength = 0.0
+shader_parameter/glow_strength = 0.25
+shader_parameter/glow_threshold = 0.65
+
+[node name="game" type="Node2D" unique_id=555629509]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2056659776]
+layer = 999999
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=547186920]
+z_index = 4096
+material = SubResource("ShaderMaterial_u5sy4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Interface" parent="." unique_id=849257126 instance=ExtResource("5_iywne")]
+z_index = 5
+
+[node name="background" parent="." unique_id=1306923250 instance=ExtResource("1_lnu2h")]
+
+[node name="board" parent="." unique_id=430647745 instance=ExtResource("1_80nbo")]
+z_index = 2
+
+[node name="GameTitle" type="Sprite2D" parent="." unique_id=2067397163]
+visible = false
+z_index = 3
+texture_filter = 1
+position = Vector2(159.99998, 28)
+scale = Vector2(1.015873, 1)
+texture = ExtResource("1_feb5d")
+
+[node name="Timer" type="Timer" parent="." unique_id=1788367816]
+autostart = true
+
+[node name="InputHandler" type="Node" parent="." unique_id=2069429051]
+script = ExtResource("4_lbhrr")
+
+[connection signal="flag_change" from="board" to="Interface" method="_on_board_flag_change"]
+[connection signal="generated" from="board" to="Interface" method="_on_board_generated"]
+[connection signal="generated" from="board" to="background" method="_on_board_generated"]
+[connection signal="timeout" from="Timer" to="board" method="_on_timer_timeout"]
+[connection signal="debug_reveal_toggle" from="InputHandler" to="board" method="_toggle_reveal_board"]
+[connection signal="left_click" from="InputHandler" to="board" method="_reveal_cell"]
+[connection signal="right_click" from="InputHandler" to="board" method="_flag_cell"]

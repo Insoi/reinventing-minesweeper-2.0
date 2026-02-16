@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://bouewfwao61xb"]
+
+[ext_resource type="Texture2D" uid="uid://dy1lmeelqhf73" path="res://assets/textures/modern/minesweeper-tileset-v1.png" id="1_4n1be"]
+[ext_resource type="Script" uid="uid://br3l3qnf2xxvk" path="res://scripts/core/board.gd" id="1_kl2wi"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4pn80"]
+texture = ExtResource("1_4n1be")
+0:1/0 = 0
+0:3/0 = 0
+0:5/0 = 0
+0:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+0:10/0 = 0
+1:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+0:12/0 = 0
+1:12/0 = 0
+0:13/0 = 0
+1:13/0 = 0
+0:14/0 = 0
+1:14/0 = 0
+0:15/0 = 0
+0:0/0 = 0
+1:15/0 = 0
+1:7/0 = 0
+1:1/0 = 0
+1:0/0 = 0
+1:3/0 = 0
+1:5/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_kl2wi"]
+sources/0 = SubResource("TileSetAtlasSource_4pn80")
+
+[node name="TileMapLayer" type="TileMapLayer" unique_id=959572314]
+tile_set = SubResource("TileSet_kl2wi")
+script = ExtResource("1_kl2wi")
