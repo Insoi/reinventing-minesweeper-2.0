@@ -1,4 +1,4 @@
-class_name CustomSizeSettings extends ConfirmationDialog
+class_name CustomDialog extends ConfirmationDialog
 
 signal size_confirmed(width: int, height: int, bombs_per: int)
 

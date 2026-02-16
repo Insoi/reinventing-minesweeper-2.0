@@ -1,7 +1,5 @@
 extends MenuButton
 
-const CustomDialog = preload("res://scripts/ui/custom_size_settings.gd")
-
 var custom_id: int = 4
 var presets: Dictionary[StringName, Dictionary] = {
 	&"Easy (10x10)": {"id": 0, "check": false, "width": 10, "height": 10, "bombs_per": 10},
