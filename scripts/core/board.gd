@@ -187,10 +187,10 @@ func _flag_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 		Vector2((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.UNEXPLORED_CELL))
 		
 		return
-		
-	flags -= 1
 	
 	if tile_data_player == 0:
+		flags -= 1
+	
 		player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.FLAGGED_CELL
 		set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
 		Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.FLAGGED_CELL))

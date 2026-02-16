@@ -1,5 +1,7 @@
 extends MenuButton
 
+const CustomDialog = preload("res://scripts/ui/custom_size_settings.gd")
+
 var custom_id: int = 4
 var presets: Dictionary[StringName, Dictionary] = {
 	&"Easy (10x10)": {"id": 0, "check": false, "width": 10, "height": 10, "bombs_per": 10},
@@ -9,7 +11,7 @@ var presets: Dictionary[StringName, Dictionary] = {
 }
 
 var custom_dialog_scene: PackedScene = preload("res://scenes/custom_size_dialog.tscn")
-var custom_dialog: ConfirmationDialog = null
+var custom_dialog: CustomDialog = null
 
 func _ready() -> void:
 	var popup: PopupMenu = get_popup()
@@ -28,11 +30,13 @@ func _ready() -> void:
 		popup.add_item(index, id_val)
 	
 	popup.add_item("Custom...", custom_id)
-	popup.connect("index_pressed", self._on_item_pressed)
+	@warning_ignore("return_value_discarded")
+	popup.index_pressed.connect(self._on_item_pressed)
 	
 	custom_dialog = custom_dialog_scene.instantiate()
 	@warning_ignore("unsafe_property_access")
 	var signal_ref: Signal = custom_dialog.size_confirmed
+	@warning_ignore("return_value_discarded")
 	signal_ref.connect(_on_custom_size_confirmed)
 	add_child(custom_dialog)
 
@@ -40,7 +44,8 @@ func _create_new_board(width: int, height: int, bombs_per: int) -> void:
 	Config.BOARD_WIDTH = width
 	Config.BOARD_HEIGHT = height
 	Config.bombs_percentage = bombs_per
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	
+	@warning_ignore("return_value_discarded") get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 func _on_item_pressed(id: int) -> void:
 	for index: StringName in presets:
@@ -62,7 +67,6 @@ func _on_item_pressed(id: int) -> void:
 			return
 			
 	if id == custom_id:
-		@warning_ignore("unsafe_method_access")
 		custom_dialog.show_dialog()
 
 func _on_custom_size_confirmed(width: int, height: int, bombs_per: int) -> void:
