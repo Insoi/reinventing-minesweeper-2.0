@@ -25,8 +25,8 @@ func generate_board_borders() -> void:
 	
 	# bottom border (right corner, bottom cells, left corner)
 	for x: int in Config.BOARD_WIDTH + 2:
-		var cell_coordinates : Vector2i = CellVectors.BOARD_BOTTOM_CELL
-		var cell_pos : Vector2 = Vector2(
+		var cell_coordinates: Vector2i = CellVectors.BOARD_BOTTOM_CELL
+		var cell_pos: Vector2 = Vector2(
 			x + (Config.STARTING_POS.x - 1),
 			Config.STARTING_POS.y + Config.BOARD_HEIGHT)
 		
