@@ -1,5 +1,4 @@
-extends TileMapLayer
-#class_name board
+class_name Board extends TileMapLayer
 
 signal generated(cell_array : Array)
 signal flag_change(count : int)
@@ -18,6 +17,7 @@ var player_array: Array[Array] = []
 var board_revealed : bool = false
 
 func _ready() -> void:
+	#canvas_layer.visible = Config.shaders_toggled
 	generate_board()
 
 func game_over(lost : bool) -> void:

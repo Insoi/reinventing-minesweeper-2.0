@@ -4,7 +4,7 @@ var custom_id: int = 4
 var presets: Dictionary[StringName, Dictionary] = {
 	&"Easy (10x10)": {"id": 0, "check": false, "width": 10, "height": 10, "bombs_per": 10},
 	&"Medium (16x14)": {"id": 1, "check": false, "width": 16, "height": 14, "bombs_per": 15},
-	&"Hard (24x24)": {"id": 2, "check": false, "width": 28, "height": 20, "bombs_per": 20},
+	&"Hard (28x20)": {"id": 2, "check": false, "width": 28, "height": 20, "bombs_per": 20},
 	&"CRT Shader": {"id": 3, "check": true}
 }
 
@@ -28,13 +28,11 @@ func _ready() -> void:
 		popup.add_item(index, id_val)
 	
 	popup.add_item("Custom...", custom_id)
-	@warning_ignore("return_value_discarded")
 	popup.index_pressed.connect(self._on_item_pressed)
 	
 	custom_dialog = custom_dialog_scene.instantiate()
-	@warning_ignore("unsafe_property_access")
+	
 	var signal_ref: Signal = custom_dialog.size_confirmed
-	@warning_ignore("return_value_discarded")
 	signal_ref.connect(_on_custom_size_confirmed)
 	add_child(custom_dialog)
 
@@ -43,15 +41,18 @@ func _create_new_board(width: int, height: int, bombs_per: int) -> void:
 	Config.BOARD_HEIGHT = height
 	Config.bombs_percentage = bombs_per
 	
-	@warning_ignore("return_value_discarded") get_tree().change_scene_to_file("res://scenes/game.tscn")
+	var board: Board = get_tree().current_scene.get_node("board")
+	board.generate_board()
 
 func _on_item_pressed(id: int) -> void:
+	var popup: PopupMenu = get_popup()
+	
 	for index: StringName in presets:
 		var data: Dictionary = presets[index]
 		var data_id: int = data["id"]
-		var check_val: bool = data["check"]
+		var item_index: int = popup.get_item_index(id)
 		
-		if data_id == id and not check_val:
+		if data_id == id and not popup.is_item_checkable(item_index):
 			var width: int = data["width"]
 			var height: int = data["height"]
 			var bombs_per: int = data["bombs_per"]
@@ -59,9 +60,15 @@ func _on_item_pressed(id: int) -> void:
 			
 			return
 			
-		elif data_id == id and check_val:
+		elif data_id == id and popup.is_item_checkable(item_index):
+			var is_checked: bool = popup.is_item_checked(item_index)
+			popup.set_item_checked(item_index, not is_checked)
+		
 			var canvas_layer: CanvasLayer = get_node("../../CanvasLayer")
-			canvas_layer.visible = not canvas_layer.visible
+			var visibility: bool = not canvas_layer.visible
+			canvas_layer.visible = visibility
+			Config.shaders_toggled = visibility
+			
 			return
 			
 	if id == custom_id:

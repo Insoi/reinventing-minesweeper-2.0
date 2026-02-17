@@ -7,6 +7,10 @@ extends Node2D
 func _on_board_generated(cell_array: Array) -> void:
 	print("GENERATED BORDERS : ", cell_array)
 	
+	background_top.clear()
+	board_borders.clear()
+	background_bottom.clear()
+	
 	generate_board_borders()
 	generate_background()
 

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://t0km24u3ntja"]
 
-[ext_resource type="Script" uid="uid://bcyc7jhljusfl" path="res://scripts/ui/custom_size_settings.gd" id="1_cp130"]
+[ext_resource type="Script" uid="uid://bcyc7jhljusfl" path="res://scripts/ui/custom_dialog.gd" id="1_cp130"]
 [ext_resource type="FontFile" uid="uid://d0ulyq0uw37q0" path="res://assets/textures/modern/Qaroxe.ttf" id="1_kwpn2"]
 
 [node name="CustomSizeDialog" type="ConfirmationDialog" unique_id=719026800]
@@ -8,6 +8,7 @@ oversampling_override = 1.0
 title = "Board Size"
 initial_position = 2
 size = Vector2i(204, 190)
+min_size = Vector2i(0, 0)
 script = ExtResource("1_cp130")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1194396922]
@@ -15,34 +16,40 @@ offset_left = 8.0
 offset_top = 8.0
 offset_right = 196.0
 offset_bottom = 148.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = 3
 
 [node name="width_label" type="Label" parent="VBoxContainer" unique_id=938708559]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_kwpn2")
+theme_override_font_sizes/font_size = 8
 text = "BOARD WIDTH"
 
 [node name="width_spinbox" type="SpinBox" parent="VBoxContainer" unique_id=275085502]
 layout_mode = 2
-min_value = 1.0
+min_value = 8.0
 value = 10.0
 
 [node name="height_label" type="Label" parent="VBoxContainer" unique_id=2073306016]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_kwpn2")
+theme_override_font_sizes/font_size = 8
 text = "BOARD HEIGHT"
 
 [node name="height_spinbox" type="SpinBox" parent="VBoxContainer" unique_id=330858099]
 layout_mode = 2
-min_value = 1.0
+min_value = 8.0
 value = 10.0
 
 [node name="bombs_label" type="Label" parent="VBoxContainer" unique_id=881290688]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_kwpn2")
+theme_override_font_sizes/font_size = 8
 text = "BOMBS AMOUNT"
 
 [node name="bombs_spinbox" type="SpinBox" parent="VBoxContainer" unique_id=185293946]
 layout_mode = 2
-min_value = 1.0
 value = 10.0
 prefix = "%"

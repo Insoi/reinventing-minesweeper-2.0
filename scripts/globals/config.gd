@@ -10,6 +10,9 @@ var BOMBS: int:
 		@warning_ignore("narrowing_conversion")
 		return (float(BOARD_HEIGHT * BOARD_WIDTH) / 100.0) * bombs_percentage # as in 20% of the total cells on the board
 
+# SETTINGS
+var shaders_toggled: bool = false
+
 # BACKGROUND
 const TOP_MARGIN: int = 3 # how much the top dark background layer should go down
 const BOTTOM_MARGIN: int = 4 # how many cells should be removed on the y axis for background generation / window

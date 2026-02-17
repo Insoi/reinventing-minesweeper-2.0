@@ -15,24 +15,22 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Reinventing Minesweeper 2.0"
-run/main_scene="res://scenes/game.tscn"
+run/main_scene="uid://d2ah0va8gbi54"
 config/features=PackedStringArray("4.6", "Forward Plus")
+config/icon="uid://bi8y6tlg46rpa"
 
 [autoload]
 
 Config="*uid://b3sjqd5k4toyq"
 CellVectors="*uid://b81sjiiuuuko2"
-Board="*uid://br3l3qnf2xxvk"
 
 [debug]
 
 gdscript/warnings/untyped_declaration=2
-gdscript/warnings/inferred_declaration=2
 gdscript/warnings/unsafe_property_access=2
 gdscript/warnings/unsafe_method_access=2
 gdscript/warnings/unsafe_cast=2
-gdscript/warnings/unsafe_call_argument=2
-gdscript/warnings/return_value_discarded=1
+gdscript/warnings/unsafe_call_argument=1
 
 [debug_draw_3d]
 
@@ -49,6 +47,14 @@ window/stretch/scale_mode="integer"
 [dotnet]
 
 project/assembly_name="Reinventing Minesweeper 2.0"
+
+[editor]
+
+script/strict_mode=true
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/rider-plugin/plugin.cfg")
 
 [gui]
 
