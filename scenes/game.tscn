@@ -36,7 +36,6 @@ shader_parameter/glow_threshold = 0.65
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2056659776]
 layer = 999999
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=547186920]
 z_index = 4096

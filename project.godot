@@ -23,6 +23,7 @@ config/icon="uid://bi8y6tlg46rpa"
 
 Config="*uid://b3sjqd5k4toyq"
 CellVectors="*uid://b81sjiiuuuko2"
+Audio="*uid://c3ci4mxidjnsb"
 
 [debug]
 

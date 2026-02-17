@@ -52,16 +52,12 @@ func generate_board() -> void:
 	_set_window_size()
 	flags = Config.BOMBS
 	
-	print(Config.BOMBS)
-	
 	#build new 2D array
 	for x: int in Config.BOARD_WIDTH:
 		var row: Array[int] = []
 		for y: int in Config.BOARD_HEIGHT:
 			row.append(0)
 		cell_array.append(row)
-	
-	print(cell_array)
 	
 	#set each cell to be unexplored
 	for y: int in Config.BOARD_HEIGHT:
@@ -147,7 +143,9 @@ func _reveal_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 	var tile_data_player: int = player_array[tile_array_pos.x][tile_array_pos.y]
 	
 	if tile_data_player != CellVectors.UNEXPLORED_CELL: return
-	if tile_data == CellVectors.BOMB_CELL:
+	if tile_data == CellVectors.BOMB_CELL: # found bomb
+		Audio.play_bomb()
+		
 		#TODO: create a flashing effect of the bomb exploding / alternating between explosion and bomb tile cell
 		set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
 		Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
@@ -157,7 +155,10 @@ func _reveal_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 		return
 		
 	print("REVEALED: ", tile_data)
-		
+	
+	# revealing a cell
+	Audio.play_bomb()
+	
 	if tile_data == CellVectors.BLANK_CELL:
 		var cells_to_reveal : Array = _flood_fill(tile_array_pos)
 		
@@ -179,7 +180,8 @@ func _reveal_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 func _flag_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 	var tile_data_player: int = player_array[tile_array_pos.x][tile_array_pos.y]
 	
-	if tile_data_player == CellVectors.FLAGGED_CELL:
+	if tile_data_player == CellVectors.FLAGGED_CELL: # flagged a cell
+		Audio.play_bomb()
 		flags += 1
 		
 		player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.UNEXPLORED_CELL
@@ -188,7 +190,8 @@ func _flag_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 		
 		return
 	
-	if tile_data_player == 0:
+	if tile_data_player == 0: # unflagged a cell
+		Audio.play_bomb()
 		flags -= 1
 	
 		player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.FLAGGED_CELL

@@ -27,6 +27,8 @@ func show_dialog() -> void:
 	popup_centered_ratio(0.8)
 
 func _on_confirmed() -> void:
+	Audio.play_bomb()
+	
 	size_confirmed.emit(
 		int(width_spinbox.value),
 		int(height_spinbox.value),

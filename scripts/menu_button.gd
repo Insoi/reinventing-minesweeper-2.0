@@ -29,6 +29,7 @@ func _ready() -> void:
 	
 	popup.add_item("Custom...", custom_id)
 	popup.index_pressed.connect(self._on_item_pressed)
+	popup.about_to_popup.connect(Audio.play_bomb)
 	
 	custom_dialog = custom_dialog_scene.instantiate()
 	
@@ -46,6 +47,7 @@ func _create_new_board(width: int, height: int, bombs_per: int) -> void:
 
 func _on_item_pressed(id: int) -> void:
 	var popup: PopupMenu = get_popup()
+	Audio.play_bomb()
 	
 	for index: StringName in presets:
 		var data: Dictionary = presets[index]
