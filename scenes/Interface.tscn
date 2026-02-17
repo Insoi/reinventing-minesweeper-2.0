@@ -96,7 +96,3 @@ texture = ExtResource("8_aamtk")
 [node name="background" type="Sprite2D" parent="menu_button" unique_id=1913832481]
 position = Vector2(11, 11)
 texture = ExtResource("6_5vriu")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=453170654]
-offset_right = 40.0
-offset_bottom = 40.0

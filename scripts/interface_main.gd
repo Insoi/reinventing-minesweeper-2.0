@@ -15,3 +15,5 @@ func _on_board_flag_change(count: int) -> void:
 	if count < 0: return
 	var counter: SegmentCounter = get_node("flag_label/counter")
 	counter.value = count
+	
+	Audio.play_sfx(Config.place_sfx)

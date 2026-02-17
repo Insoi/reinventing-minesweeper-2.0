@@ -30,3 +30,6 @@ var Qaroxe: FontFile = preload("res://assets/textures/modern/Qaroxe.ttf")
 
 # SOUNDS / MUSIC
 var bomb_sfx: AudioStream = preload("res://assets/audio/boom.mp3")
+var click_sfx: AudioStream = preload("res://assets/audio/click.mp3")
+var discover_cell_sfx: AudioStream = preload("res://assets/audio/discover_cell.mp3")
+var place_sfx: AudioStream = preload("res://assets/audio/place.mp3")

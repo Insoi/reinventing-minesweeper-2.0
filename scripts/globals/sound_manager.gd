@@ -6,6 +6,6 @@ func _ready() -> void:
 	sfx_player = AudioStreamPlayer.new()
 	add_child(sfx_player)
 
-func play_bomb() -> void:
-	sfx_player.stream = Config.bomb_sfx
+func play_sfx(audio: AudioStream) -> void:
+	sfx_player.stream = audio
 	sfx_player.play()
