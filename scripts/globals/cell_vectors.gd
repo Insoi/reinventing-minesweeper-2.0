@@ -7,6 +7,14 @@ const BLANK_CELL: int = 15
 const BOMB_CELL: int = 5
 const FLAGGED_CELL: int = 1
 
+# facey
+const facey_pos: Vector2i = Vector2i(0,0)
+const facey_pressed: Vector2i = Vector2i(0,0)
+const facey_sunglasses: Vector2i = Vector2i(0,1)
+const facey_sad: Vector2i = Vector2i(0,2)
+const facey_surprised: Vector2i = Vector2i(0,3)
+const facey_smile: Vector2i = Vector2i(0,4)
+
 # flat background cells & debug
 const BACKGROUND_CELL_LIGHT: Vector2i = Vector2i(2,7)
 const BACKGROUND_CELL_DARK: Vector2i = Vector2i(1,7)

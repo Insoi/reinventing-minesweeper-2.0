@@ -6,10 +6,24 @@
 [ext_resource type="Texture2D" uid="uid://dxyvb7iig5l8m" path="res://assets/textures/modern/numbers_tileset.png" id="3_crscu"]
 [ext_resource type="Texture2D" uid="uid://cggbrdldemkcc" path="res://assets/textures/modern/flag_count.png" id="4_x3nq5"]
 [ext_resource type="Texture2D" uid="uid://vkk1haeoocvo" path="res://assets/textures/modern/empty_button.png" id="6_5vriu"]
-[ext_resource type="Texture2D" uid="uid://bbndtfbj643j6" path="res://assets/textures/modern/face_unhappy.png" id="7_fl70i"]
+[ext_resource type="Script" uid="uid://dukxd84ywoxea" path="res://scripts/facey_handler.gd" id="6_aamtk"]
 [ext_resource type="Texture2D" uid="uid://bpa0htwsnht7c" path="res://assets/textures/modern/cogwheel.png" id="8_aamtk"]
 [ext_resource type="Texture2D" uid="uid://co8jwka5b8kaj" path="res://assets/textures/modern/lightbulb.png" id="9_28yqi"]
 [ext_resource type="Script" uid="uid://4wau4xr3wlw7" path="res://scripts/menu_button.gd" id="9_fl70i"]
+[ext_resource type="Texture2D" uid="uid://bbngf6eadtvuk" path="res://assets/textures/modern/facey.png" id="12_28yqi"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_71kk2"]
+texture = ExtResource("12_28yqi")
+texture_region_size = Vector2i(22, 22)
+0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
+0:4/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_g6351"]
+tile_size = Vector2i(22, 22)
+sources/0 = SubResource("TileSetAtlasSource_71kk2")
 
 [node name="Interface" type="Node2D" unique_id=849257126]
 script = ExtResource("1_mp4eq")
@@ -49,22 +63,6 @@ digits = 3
 metadata/_custom_type_script = "uid://b8g80kr623fce"
 metadata/_edit_use_anchors_ = true
 
-[node name="face_button" type="Button" parent="." unique_id=1831337993]
-offset_left = -11.0
-offset_top = -22.0
-offset_right = 11.0
-flat = true
-icon_alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="background" type="Sprite2D" parent="face_button" unique_id=17385118]
-position = Vector2(11, 11)
-texture = ExtResource("6_5vriu")
-
-[node name="icon" type="Sprite2D" parent="face_button" unique_id=1232126120]
-position = Vector2(11, 11)
-texture = ExtResource("7_fl70i")
-
 [node name="leaderboard_button" type="Button" parent="." unique_id=84167017]
 offset_left = -97.0
 offset_top = -22.0
@@ -96,3 +94,11 @@ texture = ExtResource("8_aamtk")
 [node name="background" type="Sprite2D" parent="menu_button" unique_id=1913832481]
 position = Vector2(11, 11)
 texture = ExtResource("6_5vriu")
+
+[node name="facey_button" type="TileMapLayer" parent="." unique_id=558741366]
+position = Vector2(-11, -22)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0)
+tile_set = SubResource("TileSet_g6351")
+rendering_quadrant_size = 22
+physics_quadrant_size = 22
+script = ExtResource("6_aamtk")

@@ -1,5 +1,11 @@
 extends Node2D
 
+@onready var board: Board = get_tree().current_scene.get_node("board")
+
+func _ready() -> void:
+	board.game_lost.connect(_on_game_over)
+	board.game_won.connect(_on_game_won)
+
 func _on_board_generated(cell_array: Array) -> void:
 	var x_center: float = (Config.STARTING_POS.x + Config.BOARD_WIDTH / 2.0) * Config.CELL_SIZE
 	position = Vector2(x_center, (Config.STARTING_POS.y - 0.8) * Config.CELL_SIZE)
@@ -17,3 +23,9 @@ func _on_board_flag_change(count: int) -> void:
 	counter.value = count
 	
 	Audio.play_sfx(Config.place_sfx)
+
+func _on_game_over() -> void:
+	pass
+
+func _on_game_won() -> void:
+	pass

@@ -3,9 +3,10 @@ class_name Board extends TileMapLayer
 signal generated(cell_array : Array)
 signal flag_change(count : int)
 #signal cell_revealed(position: Vector2i, cell_value: int)
-#signal game_won
-#signal game_lost
+signal game_won
+signal game_lost
 
+@export var board_revealed: bool = false
 @export var flags: int = Config.BOMBS:
 	set(value):
 		flags = value
@@ -14,26 +15,25 @@ signal flag_change(count : int)
 var cell_array: Array[Array] = []
 var player_array: Array[Array] = []
 
-var board_revealed : bool = false
-
 func _ready() -> void:
 	#canvas_layer.visible = Config.shaders_toggled
 	generate_board()
 
 func game_over(lost : bool) -> void:
-	#Config.BOARD_WIDTH += 3
-	generate_board()
+	_toggle_reveal_board()
 	
 	if not lost:
+		game_won.emit()
 		print("GAME OVER: (! REASON: CLEARED BOARD) / ", lost)
 	else:
+		game_lost.emit()
 		Audio.play_sfx(Config.bomb_sfx)
+		
 		print("GAME OVER: (! REASON: LOST) / ", lost)
 	
 	#TODO: Show whole board, can easily do with _toggle_reveal_board()
 	#TODO: show ui for playing again and stats. Leave stats empty if game_over was initiated by dying
 	#TODO: store the current time locally if initiated by winning
-	#TODO: button to generate a new board / play again - DO NOT let this ui overlay on the board itself
 
 func _clear_board() -> void:
 	clear()
@@ -131,6 +131,7 @@ func _toggle_reveal_board() -> void:
 				var cell_data: int = cell_array[x][y]
 				set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
 				Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, cell_data))
+		
 	else: # restoring cells by using the player_array aka what the player sees
 		for y: int in Config.BOARD_HEIGHT:
 			for x: int in Config.BOARD_WIDTH:
