@@ -146,7 +146,6 @@ func _reveal_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 	
 	if tile_data_player != CellVectors.UNEXPLORED_CELL: return
 	if tile_data == CellVectors.BOMB_CELL: # found bomb
-		#TODO: create a flashing effect of the bomb exploding / alternating between explosion and bomb tile cell
 		set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
 		Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
 		player_array[tile_array_pos.x][tile_array_pos.y] = tile_data
@@ -169,7 +168,7 @@ func _reveal_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 			set_cell(Vector2i(reveal_tile_pos.x, reveal_tile_pos.y), 0,
 			Vector2i((reveal_tile_pos.x + (reveal_tile_pos.y % 2)) % 2, cell_data))
 			player_array[cell_pos.x][cell_pos.y] = cell_data
-		return
+		
 	
 	set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
 	Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, tile_data))
@@ -228,6 +227,8 @@ func _check_win_condition() -> void:
 	var total_cells: int = Config.BOARD_WIDTH * Config.BOARD_HEIGHT
 	var cells_to_reveal: int = total_cells - Config.BOMBS
 	var revealed_count: int = 0
+	
+	print(total_cells, cells_to_reveal, revealed_count)
 	
 	for y: int in Config.BOARD_HEIGHT:
 		for x: int in Config.BOARD_WIDTH:

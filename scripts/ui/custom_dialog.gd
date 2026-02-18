@@ -8,7 +8,7 @@ signal size_confirmed(width: int, height: int, bombs_per: int)
 
 func _ready() -> void:
 	var window_size: Vector2 = get_viewport().get_visible_rect().size
-	max_size = window_size * 0.9  # 80% of window size
+	max_size = window_size * 0.9
 	
 	confirmed.connect(_on_confirmed)
 
@@ -17,14 +17,8 @@ func show_dialog() -> void:
 	height_spinbox.value = Config.BOARD_HEIGHT
 	bombs_spinbox.value = Config.bombs_percentage
 	
-	# Debug: see what size it actually wants to be
-	var box_container: VBoxContainer = $VBoxContainer
-	await get_tree().process_frame
-	print("Dialog wants to be size: ", size)
-	print("VBoxContainer size: ", box_container.size)
-	
 	reset_size()
-	popup_centered_ratio(0.8)
+	popup_centered_ratio(0.75)
 
 func _on_confirmed() -> void:
 	Audio.play_sfx(Config.click_sfx)

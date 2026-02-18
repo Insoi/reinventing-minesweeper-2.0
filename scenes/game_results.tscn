@@ -1,9 +1,14 @@
 [gd_scene format=3 uid="uid://6g65ysrc028h"]
 
+[ext_resource type="Script" uid="uid://bhcccijk2rmgq" path="res://scripts/ui/game_results.gd" id="1_hgsmd"]
+
 [node name="game_results" type="AcceptDialog" unique_id=1843888363]
 oversampling_override = 1.0
 title = "Game Won!"
+position = Vector2i(0, 36)
 size = Vector2i(252, 132)
+ok_button_text = "SAVE SCORE"
+script = ExtResource("1_hgsmd")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2109416534]
 offset_left = 8.0
@@ -11,6 +16,7 @@ offset_top = 8.0
 offset_right = 244.0
 offset_bottom = 90.0
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
 
 [node name="results" type="Label" parent="VBoxContainer" unique_id=373279939]
 layout_mode = 2
@@ -21,6 +27,5 @@ horizontal_alignment = 1
 
 [node name="username" type="LineEdit" parent="VBoxContainer" unique_id=2049643233]
 layout_mode = 2
-text = "Username"
 placeholder_text = "Username"
 alignment = 1

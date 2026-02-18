@@ -24,6 +24,7 @@ config/icon="res://icon.svg"
 Config="*res://scripts/globals/config.gd"
 CellVectors="*res://scripts/globals/cell_vectors.gd"
 Audio="*res://scripts/globals/sound_manager.gd"
+SaveLoad="*uid://b2vw262x8uq8g"
 
 [debug]
 

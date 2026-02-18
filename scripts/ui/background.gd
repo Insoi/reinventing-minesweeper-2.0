@@ -5,8 +5,6 @@ extends Node2D
 @onready var board_borders: TileMapLayer = get_node("board_borders")
 
 func _on_board_generated(cell_array: Array) -> void:
-	print("GENERATED BORDERS : ", cell_array)
-	
 	background_top.clear()
 	board_borders.clear()
 	background_bottom.clear()

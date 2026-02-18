@@ -13,7 +13,6 @@ func _input(event: InputEvent) -> void:
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT:
 			var mouse_pos: Vector2 = get_local_mouse_position()
 			var tile_pos: Vector2i = local_to_map(mouse_pos)
-			print(tile_pos)
 			
 			if event.is_released() and not board.board_revealed:
 				set_cell(CellVectors.facey_pos, 0, CellVectors.facey_smile)
@@ -36,6 +35,5 @@ func _on_game_over() -> void:
 	set_cell(CellVectors.facey_pos, 0, CellVectors.facey_sad)
 
 func _on_game_won() -> void:
-	print("won")
 	set_cell(CellVectors.facey_pos, 0, CellVectors.facey_sunglasses)
 
