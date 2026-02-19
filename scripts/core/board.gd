@@ -28,12 +28,8 @@ func game_over(lost : bool) -> void:
 	else:
 		game_lost.emit()
 		Audio.play_sfx(Config.bomb_sfx)
-		
 		print("GAME OVER: (! REASON: LOST) / ", lost)
 	
-	#TODO: Show whole board, can easily do with _toggle_reveal_board()
-	#TODO: show ui for playing again and stats. Leave stats empty if game_over was initiated by dying
-	#TODO: store the current time locally if initiated by winning
 
 func _clear_board() -> void:
 	clear()

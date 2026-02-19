@@ -30,6 +30,7 @@ func _ready() -> void:
 	popup.add_item("Custom...", custom_id)
 	popup.index_pressed.connect(self._on_item_pressed)
 	popup.about_to_popup.connect(func() -> void: Audio.play_sfx(Config.click_sfx))
+	popup.popup_hide.connect(func() -> void: Audio.play_sfx(Config.click_sfx))
 	
 	custom_dialog = custom_dialog_scene.instantiate()
 	

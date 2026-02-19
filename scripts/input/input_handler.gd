@@ -1,5 +1,5 @@
 extends Node
-#class_name InputHandler # // later on useful
+#class_name InputHandler # // later on useful (maybe?)
 
 signal left_click(tile_array_pos: Vector2i, tile_pos: Vector2i)
 signal right_click(tile_array_pos: Vector2i, tile_pos: Vector2i)

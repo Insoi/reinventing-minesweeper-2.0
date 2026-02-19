@@ -4,9 +4,6 @@ const save_location: String = "user://data.json"
 
 var board_scores: Dictionary[String, Dictionary] = {} # Username / Board data
 
-func _ready() -> void:
-	_load()
-
 func _save() -> void:
 	var file: FileAccess = FileAccess.open_encrypted_with_pass(save_location, FileAccess.WRITE, "928435hf4")
 	file.store_var(board_scores.duplicate())
@@ -27,3 +24,8 @@ func _load() -> void:
 			print(index_data)
 		
 		print("------------- DATA LOADED --------------")
+
+func _wipe() -> void:
+	if FileAccess.file_exists(save_location):
+		DirAccess.remove_absolute(save_location)
+		board_scores.clear()

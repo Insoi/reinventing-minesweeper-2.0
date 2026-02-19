@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://bi77y4ekaglh8"]
+
+[ext_resource type="Script" uid="uid://cmqgmuyng5htq" path="res://scripts/ui/leaderboard_entry.gd" id="1_dw4eb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dw4eb"]
+content_margin_left = 6.0
+content_margin_top = 8.0
+content_margin_right = 6.0
+content_margin_bottom = 8.0
+bg_color = Color(0.2, 0.2, 0.2, 1)
+corner_detail = 6
+
+[sub_resource type="LabelSettings" id="LabelSettings_dw4eb"]
+font_size = 12
+font_color = Color(0, 0.4862745, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_l8es1"]
+font_size = 12
+font_color = Color(1, 0, 0.09803922, 1)
+
+[node name="PanelContainer" type="PanelContainer" unique_id=205303366]
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_dw4eb")
+script = ExtResource("1_dw4eb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=255936601]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=337066505]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="user" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1132796706]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "USER"
+
+[node name="score" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1159738593]
+layout_mode = 2
+theme_override_font_sizes/font_size = 0
+text = "SCORE"
+label_settings = SubResource("LabelSettings_dw4eb")
+vertical_alignment = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer" unique_id=1940203826]
+layout_mode = 2
+
+[node name="info" type="Label" parent="HBoxContainer/VBoxContainer2" unique_id=1317908021]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "BOARD SIZE"
+horizontal_alignment = 2
+
+[node name="bombs" type="Label" parent="HBoxContainer/VBoxContainer2" unique_id=1677681695]
+layout_mode = 2
+text = "BOMBS"
+label_settings = SubResource("LabelSettings_l8es1")
+horizontal_alignment = 2
+vertical_alignment = 2

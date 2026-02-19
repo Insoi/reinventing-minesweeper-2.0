@@ -1,16 +1,24 @@
 extends Node2D
 
 @onready var board: Board = get_tree().current_scene.get_node("board")
+@onready var leaderboard: Button = get_node("leaderboard_button")
 
+var data_dialog_scene: PackedScene = preload("res://scenes/data_dialog.tscn")
 var custom_results_scene: PackedScene = preload("res://scenes/game_results.tscn")
 var game_results: GameResults = null
+var leaderboard_dialog: DataDialog = null
 
 func _ready() -> void:
-	board.game_lost.connect(_on_game_over)
-	board.game_won.connect(_on_game_won)
-	
+	_setup_dialogs()
+	board.game_won.connect(game_results.show_dialog)
+	leaderboard.pressed.connect(leaderboard_dialog.toggle_dialog)
+
+func _setup_dialogs() -> void:
 	game_results = custom_results_scene.instantiate()
+	leaderboard_dialog = data_dialog_scene.instantiate()
+	
 	add_child(game_results)
+	add_child(leaderboard_dialog)
 
 func _on_board_generated(cell_array: Array) -> void:
 	var x_center: float = (Config.STARTING_POS.x + Config.BOARD_WIDTH / 2.0) * Config.CELL_SIZE
@@ -29,10 +37,3 @@ func _on_board_flag_change(count: int) -> void:
 	counter.value = count
 	
 	Audio.play_sfx(Config.place_sfx)
-
-func _on_game_over() -> void:
-	pass
-
-func _on_game_won() -> void:
-	#TODO: Only show dialog if it's a new record or a new board inside database
-	game_results.show_dialog()

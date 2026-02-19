@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dsnm4rrrgb360"]
+
+[ext_resource type="Script" uid="uid://5yqttdxl42of" path="res://scripts/ui/data_dialog.gd" id="1_gh3tp"]
+[ext_resource type="PackedScene" uid="uid://bi77y4ekaglh8" path="res://scenes/leaderboard_entry.tscn" id="2_2vcn3"]
+
+[node name="DataDialog" type="Window" unique_id=1666496169]
+oversampling_override = 1.0
+title = "LEADERBOARD"
+position = Vector2i(0, 36)
+size = Vector2i(200, 180)
+visible = false
+min_size = Vector2i(200, 180)
+script = ExtResource("1_gh3tp")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=462162599]
+physics_interpolation_mode = 1
+custom_minimum_size = Vector2(200, 180)
+offset_right = 200.0
+offset_bottom = 180.0
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer" unique_id=1785577359]
+custom_minimum_size = Vector2(200, 180)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer" unique_id=99367301]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Info" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=205303366 instance=ExtResource("2_2vcn3")]
+layout_mode = 2

@@ -4,9 +4,6 @@ class_name GameResults extends AcceptDialog
 @onready var results: Label = get_node("VBoxContainer/results")
 
 func _ready() -> void:
-	#var window_size: Vector2 = get_viewport().get_visible_rect().size
-	#max_size = window_size * 0.9
-	
 	confirmed.connect(_on_confirmed)
 
 func show_dialog() -> void:
@@ -17,8 +14,8 @@ func show_dialog() -> void:
 func get_board_key(width: int, height: int, mines: int) -> String:
 	return "%d_%d_%d" % [width, height, mines]
 
-
 func _check_if_highscore() -> bool:
+	#TODO: check if highscore
 	return true
 
 func _on_confirmed() -> void:
