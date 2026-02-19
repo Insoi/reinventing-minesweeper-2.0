@@ -63,16 +63,11 @@ position = Vector2(109, 32)
 scale = Vector2(1.015873, 1)
 texture = ExtResource("1_feb5d")
 
-[node name="Timer" type="Timer" parent="." unique_id=1788367816]
-autostart = true
-
 [node name="InputHandler" type="Node" parent="." unique_id=2069429051]
 script = ExtResource("4_lbhrr")
 
-[connection signal="flag_change" from="board" to="Interface" method="_on_board_flag_change"]
 [connection signal="generated" from="board" to="Interface" method="_on_board_generated"]
 [connection signal="generated" from="board" to="background" method="_on_board_generated"]
-[connection signal="timeout" from="Timer" to="board" method="_on_timer_timeout"]
 [connection signal="debug_reveal_toggle" from="InputHandler" to="board" method="_toggle_reveal_board"]
 [connection signal="left_click" from="InputHandler" to="board" method="_reveal_cell"]
 [connection signal="right_click" from="InputHandler" to="board" method="_flag_cell"]

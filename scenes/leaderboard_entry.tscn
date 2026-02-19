@@ -44,6 +44,12 @@ text = "SCORE"
 label_settings = SubResource("LabelSettings_dw4eb")
 vertical_alignment = 2
 
+[node name="delete_data" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=633330823]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "DELETE DATA"
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer" unique_id=1940203826]
 layout_mode = 2
 

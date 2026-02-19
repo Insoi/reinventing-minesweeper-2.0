@@ -1,26 +1,28 @@
 class_name Board extends TileMapLayer
 
-signal generated(cell_array : Array)
-signal flag_change(count : int)
+signal generated(cell_array: Array)
 #signal cell_revealed(position: Vector2i, cell_value: int)
 signal game_won
 signal game_lost
 
+@export var game_active: bool = false
 @export var board_revealed: bool = false
-@export var flags: int = Config.BOMBS:
-	set(value):
-		flags = value
-		flag_change.emit(value)
+@export var flags: int = Config.BOMBS
 
 var cell_array: Array[Array] = []
 var player_array: Array[Array] = []
 
 func _ready() -> void:
 	#canvas_layer.visible = Config.shaders_toggled
+	#SaveLoad._wipe("")
 	generate_board()
+
+func get_board_key(width: int, height: int, mines: int) -> String:
+	return "%d_%d_%d" % [width, height, mines]
 
 func game_over(lost : bool) -> void:
 	_toggle_reveal_board()
+	game_active = false
 	
 	if not lost:
 		game_won.emit()
@@ -172,25 +174,6 @@ func _reveal_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
 	
 	_check_win_condition()
 
-func _flag_cell(tile_array_pos : Vector2i, tile_pos : Vector2i) -> void:
-	var tile_data_player: int = player_array[tile_array_pos.x][tile_array_pos.y]
-	
-	if tile_data_player == CellVectors.FLAGGED_CELL: # flagged a cell
-		flags += 1
-		
-		player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.UNEXPLORED_CELL
-		set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
-		Vector2((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.UNEXPLORED_CELL))
-		
-		return
-	
-	if tile_data_player == 0: # unflagged a cell
-		flags -= 1
-	
-		player_array[tile_array_pos.x][tile_array_pos.y] = CellVectors.FLAGGED_CELL
-		set_cell(Vector2(tile_pos.x, tile_pos.y), 0,
-		Vector2i((tile_pos.x + (tile_pos.y % 2)) % 2, CellVectors.FLAGGED_CELL))
-
 func _flood_fill(tile_pos: Vector2i) -> Array:
 	var checked: Array[Vector2i] = []
 	var queue: Array[Vector2i] = [tile_pos]
@@ -233,3 +216,5 @@ func _check_win_condition() -> void:
 	
 	if revealed_count == cells_to_reveal:
 		game_over(false)
+	else:
+		game_active = true

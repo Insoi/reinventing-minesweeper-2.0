@@ -3,10 +3,12 @@
 [ext_resource type="Texture2D" uid="uid://b6igumko6dxhv" path="res://assets/textures/modern/time_count.png" id="1_8n1tq"]
 [ext_resource type="Script" uid="uid://dn6238i6d2ul5" path="res://scripts/core/interface_main.gd" id="1_aamtk"]
 [ext_resource type="Script" uid="uid://b8g80kr623fce" path="res://tools/SegmentCounter/SegmentCounter.gd" id="2_mp4eq"]
+[ext_resource type="Script" uid="uid://dca0lmdby4s8j" path="res://scripts/ui/time_handler.gd" id="3_28yqi"]
 [ext_resource type="Texture2D" uid="uid://dxyvb7iig5l8m" path="res://assets/textures/modern/numbers_tileset.png" id="3_crscu"]
 [ext_resource type="Texture2D" uid="uid://cggbrdldemkcc" path="res://assets/textures/modern/flag_count.png" id="4_x3nq5"]
 [ext_resource type="Texture2D" uid="uid://vkk1haeoocvo" path="res://assets/textures/modern/empty_button.png" id="6_5vriu"]
 [ext_resource type="Script" uid="uid://dukxd84ywoxea" path="res://scripts/input/facey_handler.gd" id="6_aamtk"]
+[ext_resource type="Script" uid="uid://bl6fnm5gb5qqu" path="res://scripts/ui/flag_handler.gd" id="7_71kk2"]
 [ext_resource type="Script" uid="uid://4wau4xr3wlw7" path="res://scripts/ui/menu_button.gd" id="8_28yqi"]
 [ext_resource type="Texture2D" uid="uid://bpa0htwsnht7c" path="res://assets/textures/modern/cogwheel.png" id="8_aamtk"]
 [ext_resource type="Texture2D" uid="uid://co8jwka5b8kaj" path="res://assets/textures/modern/lightbulb.png" id="9_28yqi"]
@@ -31,6 +33,7 @@ script = ExtResource("1_aamtk")
 [node name="time_label" type="Sprite2D" parent="." unique_id=1314728797]
 position = Vector2(-43, -11)
 texture = ExtResource("1_8n1tq")
+script = ExtResource("3_28yqi")
 
 [node name="counter" type="HBoxContainer" parent="time_label" unique_id=384174567]
 offset_left = -6.0
@@ -41,14 +44,16 @@ theme_override_constants/separation = 0
 alignment = 1
 script = ExtResource("2_mp4eq")
 texture = ExtResource("3_crscu")
-value = 2
 digits = 3
 metadata/_custom_type_script = "uid://b8g80kr623fce"
 metadata/_edit_use_anchors_ = true
 
+[node name="Timer" type="Timer" parent="time_label" unique_id=2088067477]
+
 [node name="flag_label" type="Sprite2D" parent="." unique_id=1645827138]
 position = Vector2(43, -11)
 texture = ExtResource("4_x3nq5")
+script = ExtResource("7_71kk2")
 
 [node name="counter" type="HBoxContainer" parent="flag_label" unique_id=958258663]
 offset_left = -5.0

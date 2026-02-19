@@ -25,7 +25,14 @@ func _load() -> void:
 		
 		print("------------- DATA LOADED --------------")
 
-func _wipe() -> void:
+func _wipe(wipe_key: String) -> void:
 	if FileAccess.file_exists(save_location):
+		if wipe_key != "": # meaning only to wipe one specific
+			if board_scores.has(wipe_key):
+				board_scores.erase(wipe_key)
+			_save()
+			
+			return
+		
 		DirAccess.remove_absolute(save_location)
 		board_scores.clear()

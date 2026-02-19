@@ -30,10 +30,3 @@ func _on_board_generated(cell_array: Array) -> void:
 	var target_scale: float = (board_pixel_width * Config.INTERFACE_MARGIN) / available_width
 	scale = Vector2(target_scale, target_scale)
 
-
-func _on_board_flag_change(count: int) -> void:
-	if count < 0: return
-	var counter: SegmentCounter = get_node("flag_label/counter")
-	counter.value = count
-	
-	Audio.play_sfx(Config.place_sfx)
