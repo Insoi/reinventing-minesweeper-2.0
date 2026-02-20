@@ -18,12 +18,11 @@ const TOP_MARGIN: int = 3 # how much the top dark background layer should go dow
 const BOTTOM_MARGIN: int = 4 # how many cells should be removed on the y axis for background generation / window
 const STARTING_POS: Vector2i = Vector2i(4,7) # starting_pos * cell_size and starting_pos starts at 0
 
-@warning_ignore("narrowing_conversion")
 const INTERFACE_MARGIN: float = 1.9
 
 # DEBUGGING
 const DEBUG_TILES: bool = false
-const DEBUG_BOARD: bool = true
+const DEBUG_BOARD: bool = false
 
 # FONTS
 var Qaroxe: FontFile = preload("res://assets/textures/modern/Qaroxe.ttf")
