@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cpj0jkslxumqp"]
+
+[ext_resource type="Texture2D" uid="uid://dg2w33wk8sq2i" path="res://assets/textures/modern/leaderboard_button_tilemap.png" id="1_yotc2"]
+[ext_resource type="Script" uid="uid://bws6jkb6paps0" path="res://scripts/core/interactive_button.gd" id="2_lxa40"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lxa40"]
+texture = ExtResource("1_yotc2")
+texture_region_size = Vector2i(22, 22)
+0:0/0 = 0
+0:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ej2je"]
+tile_size = Vector2i(22, 22)
+sources/0 = SubResource("TileSetAtlasSource_lxa40")
+
+[node name="TileMapLayer" type="TileMapLayer" unique_id=297925675]
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0)
+tile_set = SubResource("TileSet_ej2je")
+script = ExtResource("2_lxa40")

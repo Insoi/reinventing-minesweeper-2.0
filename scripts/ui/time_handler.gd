@@ -1,4 +1,4 @@
-extends Sprite2D
+extends InteractiveButton
 
 @onready var board: Board = get_tree().current_scene.get_node("board")
 @onready var input_handler: InputHandler = get_tree().current_scene.get_node("InputHandler")
@@ -19,7 +19,7 @@ func _ready() -> void:
 	board.game_won.connect(_on_game_over)
 	board.game_lost.connect(_on_game_over)
 
-func _start_timer(tile_array_pos: Vector2i, tile_pos: Vector2i) -> void:
+func _start_timer(tile_array_pos: Vector2i, _tile_pos: Vector2i) -> void:
 	if not new_board:
 		return
 	
@@ -30,7 +30,11 @@ func _start_timer(tile_array_pos: Vector2i, tile_pos: Vector2i) -> void:
 		timer.start()
 
 func _on_tick() -> void:
-	if not board.game_active: return
+	print(board.game_active)
+	if not board.game_active:
+		timer.stop()
+		return
+	
 	print("tick: ", counter.value)
 	counter.value += 1
 

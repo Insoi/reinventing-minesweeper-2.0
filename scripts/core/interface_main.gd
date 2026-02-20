@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var board: Board = get_tree().current_scene.get_node("board")
-@onready var leaderboard: Button = get_node("leaderboard_button")
+@onready var leaderboard: InteractiveButton = get_node("leaderboard_button")
 
 var data_dialog_scene: PackedScene = preload("res://scenes/data_dialog.tscn")
 var custom_results_scene: PackedScene = preload("res://scenes/game_results.tscn")
@@ -11,7 +11,7 @@ var leaderboard_dialog: DataDialog = null
 func _ready() -> void:
 	_setup_dialogs()
 	board.game_won.connect(game_results.show_dialog)
-	leaderboard.pressed.connect(leaderboard_dialog.toggle_dialog)
+	leaderboard.on_click.connect(leaderboard_dialog.toggle_dialog)
 
 func _setup_dialogs() -> void:
 	game_results = custom_results_scene.instantiate()

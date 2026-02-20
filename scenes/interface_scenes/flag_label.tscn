@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bshegr7qgf23c"]
+
+[ext_resource type="Texture2D" uid="uid://daefqow51emlg" path="res://assets/textures/modern/flag_label_tilemap.png" id="1_f37ws"]
+[ext_resource type="Script" uid="uid://bl6fnm5gb5qqu" path="res://scripts/ui/flag_handler.gd" id="2_woadq"]
+[ext_resource type="Script" uid="uid://b8g80kr623fce" path="res://tools/SegmentCounter/SegmentCounter.gd" id="3_lxh48"]
+[ext_resource type="Texture2D" uid="uid://dxyvb7iig5l8m" path="res://assets/textures/modern/numbers_tileset.png" id="4_tfofu"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d3s65"]
+texture = ExtResource("1_f37ws")
+texture_region_size = Vector2i(54, 22)
+0:0/0 = 0
+0:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_qoel2"]
+tile_size = Vector2i(54, 22)
+sources/0 = SubResource("TileSetAtlasSource_d3s65")
+
+[node name="flag_label" type="TileMapLayer" unique_id=195410863]
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0)
+tile_set = SubResource("TileSet_qoel2")
+script = ExtResource("2_woadq")
+
+[node name="counter" type="HBoxContainer" parent="." unique_id=623537214]
+offset_left = 21.0
+offset_top = 5.0
+offset_right = 48.0
+offset_bottom = 15.0
+theme_override_constants/separation = 0
+alignment = 1
+script = ExtResource("3_lxh48")
+texture = ExtResource("4_tfofu")
+digits = 3
+metadata/_custom_type_script = "uid://b8g80kr623fce"
+metadata/_edit_use_anchors_ = true

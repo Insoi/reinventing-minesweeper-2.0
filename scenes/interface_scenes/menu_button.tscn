@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://b6y5j8pnaw280"]
+
+[ext_resource type="Texture2D" uid="uid://o2g6q4to25d2" path="res://assets/textures/modern/settings_button_tilemap.png" id="1_cv0ke"]
+[ext_resource type="Script" uid="uid://4wau4xr3wlw7" path="res://scripts/ui/menu_button.gd" id="2_cv0ke"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cufdy"]
+texture = ExtResource("1_cv0ke")
+texture_region_size = Vector2i(22, 22)
+0:0/0 = 0
+0:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_goleo"]
+tile_size = Vector2i(22, 22)
+sources/0 = SubResource("TileSetAtlasSource_cufdy")
+
+[node name="menu_button" type="TileMapLayer" unique_id=1285266940]
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0)
+tile_set = SubResource("TileSet_goleo")
+script = ExtResource("2_cv0ke")
+metadata/_custom_type_script = "uid://bws6jkb6paps0"

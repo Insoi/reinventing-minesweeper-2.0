@@ -1,4 +1,4 @@
-extends MenuButton
+class_name DifficultyButton extends InteractiveButton
 
 var custom_id: int = 4
 var presets: Dictionary[StringName, Dictionary] = {
@@ -10,11 +10,15 @@ var presets: Dictionary[StringName, Dictionary] = {
 
 var custom_dialog_scene: PackedScene = preload("res://scenes/custom_size_dialog.tscn")
 var custom_dialog: CustomDialog = null
+var popup_menu: PopupMenu
 
 func _ready() -> void:
-	var popup: PopupMenu = get_popup()
-	popup.add_theme_font_override("font", Config.Qaroxe)
-	popup.add_theme_font_size_override("font_size", 8)
+	super._ready()
+	
+	popup_menu = PopupMenu.new()
+	popup_menu.add_theme_font_override("font", Config.Qaroxe)
+	popup_menu.add_theme_font_size_override("font_size", 8)
+	add_child(popup_menu)
 	
 	for index: StringName in presets:
 		var data: Dictionary = presets[index]
@@ -22,21 +26,28 @@ func _ready() -> void:
 		var check_val: bool = data["check"]
 		
 		if check_val:
-			popup.add_check_item(index, id_val)
+			popup_menu.add_check_item(index, id_val)
 			continue
 		
-		popup.add_item(index, id_val)
+		popup_menu.add_item(index, id_val)
 	
-	popup.add_item("Custom...", custom_id)
-	popup.index_pressed.connect(self._on_item_pressed)
-	popup.about_to_popup.connect(func() -> void: Audio.play_sfx(Config.click_sfx))
-	popup.popup_hide.connect(func() -> void: Audio.play_sfx(Config.click_sfx))
+	popup_menu.add_item("Custom...", custom_id)
+	popup_menu.index_pressed.connect(_on_item_pressed)
 	
 	custom_dialog = custom_dialog_scene.instantiate()
-	
-	var signal_ref: Signal = custom_dialog.size_confirmed
-	signal_ref.connect(_on_custom_size_confirmed)
+	custom_dialog.size_confirmed.connect(_on_custom_size_confirmed)
 	add_child(custom_dialog)
+	
+	on_click.connect(_show_popup)
+
+func _show_popup() -> void:
+	var tile_local_pos: Vector2 = map_to_local(tile_pos)
+	var tile_size: Vector2 = Vector2(tile_set.tile_size)
+	
+	var screen_pos: Vector2 = get_viewport().get_canvas_transform() * to_global(tile_local_pos)
+	screen_pos.y += tile_size.y / 2.0 
+	
+	popup_menu.popup(Rect2i(screen_pos, Vector2i.ZERO))
 
 func _create_new_board(width: int, height: int, bombs_per: int) -> void:
 	Config.BOARD_WIDTH = width
@@ -47,33 +58,27 @@ func _create_new_board(width: int, height: int, bombs_per: int) -> void:
 	board.generate_board()
 
 func _on_item_pressed(id: int) -> void:
-	var popup: PopupMenu = get_popup()
 	Audio.play_sfx(Config.click_sfx)
 	
 	for index: StringName in presets:
 		var data: Dictionary = presets[index]
 		var data_id: int = data["id"]
-		var item_index: int = popup.get_item_index(id)
+		var item_index: int = popup_menu.get_item_index(id)
 		
-		if data_id == id and not popup.is_item_checkable(item_index):
-			var width: int = data["width"]
-			var height: int = data["height"]
-			var bombs_per: int = data["bombs_per"]
-			_create_new_board(width, height, bombs_per)
-			
+		if data_id == id and not popup_menu.is_item_checkable(item_index):
+			_create_new_board(data["width"], data["height"], data["bombs_per"])
 			return
-			
-		elif data_id == id and popup.is_item_checkable(item_index):
-			var is_checked: bool = popup.is_item_checked(item_index)
-			popup.set_item_checked(item_index, not is_checked)
 		
+		elif data_id == id and popup_menu.is_item_checkable(item_index):
+			var is_checked: bool = popup_menu.is_item_checked(item_index)
+			popup_menu.set_item_checked(item_index, not is_checked)
+			
 			var canvas_layer: CanvasLayer = get_node("../../CanvasLayer")
 			var visibility: bool = not canvas_layer.visible
 			canvas_layer.visible = visibility
 			Config.shaders_toggled = visibility
-			
 			return
-			
+	
 	if id == custom_id:
 		custom_dialog.show_dialog()
 

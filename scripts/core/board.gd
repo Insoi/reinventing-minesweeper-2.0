@@ -13,8 +13,6 @@ var cell_array: Array[Array] = []
 var player_array: Array[Array] = []
 
 func _ready() -> void:
-	#canvas_layer.visible = Config.shaders_toggled
-	#SaveLoad._wipe("")
 	generate_board()
 
 func get_board_key(width: int, height: int, mines: int) -> String:
@@ -39,6 +37,7 @@ func _clear_board() -> void:
 	cell_array.clear()
 	player_array.clear()
 	board_revealed = false
+	game_active = false
 
 func _set_window_size() -> void:
 	var x_size: int = (Config.STARTING_POS.x * 2 + Config.BOARD_WIDTH) * Config.CELL_SIZE
@@ -206,8 +205,6 @@ func _check_win_condition() -> void:
 	var total_cells: int = Config.BOARD_WIDTH * Config.BOARD_HEIGHT
 	var cells_to_reveal: int = total_cells - Config.BOMBS
 	var revealed_count: int = 0
-	
-	print(total_cells, cells_to_reveal, revealed_count)
 	
 	for y: int in Config.BOARD_HEIGHT:
 		for x: int in Config.BOARD_WIDTH:

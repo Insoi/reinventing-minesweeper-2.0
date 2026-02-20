@@ -12,15 +12,12 @@ func _ready() -> void:
 	)
 
 func toggle_dialog() -> void:
-	Audio.play_sfx(Config.click_sfx)
-	
 	if not visible:
 		_load_leaderboard()
 		popup_centered()
 		return
 	
 	visible = false
-
 
 func _load_leaderboard() -> void:
 	for child: PanelContainer in vb_container.get_children():

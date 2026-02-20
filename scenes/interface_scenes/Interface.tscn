@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://bjyxufhvcx7ts"]
+
+[ext_resource type="Script" uid="uid://dn6238i6d2ul5" path="res://scripts/core/interface_main.gd" id="1_aamtk"]
+[ext_resource type="Script" uid="uid://dukxd84ywoxea" path="res://scripts/input/facey_handler.gd" id="6_aamtk"]
+[ext_resource type="PackedScene" uid="uid://cpj0jkslxumqp" path="res://scenes/interface_scenes/leaderboard_button.tscn" id="8_bt55t"]
+[ext_resource type="PackedScene" uid="uid://b6y5j8pnaw280" path="res://scenes/interface_scenes/menu_button.tscn" id="9_ass5r"]
+[ext_resource type="Texture2D" uid="uid://bprvvy24ge72e" path="res://assets/textures/modern/facey_tilemapt.png" id="10_nuv2a"]
+[ext_resource type="PackedScene" uid="uid://bshegr7qgf23c" path="res://scenes/interface_scenes/flag_label.tscn" id="10_oggl5"]
+[ext_resource type="Texture2D" uid="uid://bbngf6eadtvuk" path="res://assets/textures/modern/facey.png" id="12_28yqi"]
+[ext_resource type="PackedScene" uid="uid://747igns58i5v" path="res://scenes/interface_scenes/time_label.tscn" id="14_nuv2a"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3ec1q"]
+texture = ExtResource("10_nuv2a")
+texture_region_size = Vector2i(22, 22)
+0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
+0:4/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_71kk2"]
+texture = ExtResource("12_28yqi")
+texture_region_size = Vector2i(22, 22)
+0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
+0:4/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_g6351"]
+tile_size = Vector2i(22, 22)
+sources/2 = SubResource("TileSetAtlasSource_71kk2")
+sources/0 = SubResource("TileSetAtlasSource_3ec1q")
+
+[node name="Interface" type="Node2D" unique_id=849257126]
+script = ExtResource("1_aamtk")
+
+[node name="facey_button" type="TileMapLayer" parent="." unique_id=558741366]
+position = Vector2(-11, -22)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0)
+tile_set = SubResource("TileSet_g6351")
+rendering_quadrant_size = 22
+physics_quadrant_size = 22
+script = ExtResource("6_aamtk")
+
+[node name="time_label" parent="." unique_id=1070163197 instance=ExtResource("14_nuv2a")]
+position = Vector2(-70, -22)
+
+[node name="flag_label" parent="." unique_id=195410863 instance=ExtResource("10_oggl5")]
+position = Vector2(16, -22)
+
+[node name="menu_button" parent="." unique_id=1285266940 instance=ExtResource("9_ass5r")]
+position = Vector2(75, -22)
+
+[node name="leaderboard_button" parent="." unique_id=1105398594 instance=ExtResource("8_bt55t")]
+position = Vector2(-97, -22)

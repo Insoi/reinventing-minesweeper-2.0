@@ -24,7 +24,6 @@ func _input(event: InputEvent) -> void:
 				if event.is_pressed() and not board.board_revealed:
 					set_cell(CellVectors.facey_pos, 0, CellVectors.facey_surprised)
 
-
 func on_click() -> void:
 	set_cell(CellVectors.facey_pos, 0, CellVectors.facey_pressed)
 	Audio.play_sfx(Config.click_sfx)
