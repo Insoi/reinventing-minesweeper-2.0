@@ -59,7 +59,7 @@ z_index = 2
 visible = false
 z_index = 3
 texture_filter = 1
-position = Vector2(109, 32)
+position = Vector2(159, 33)
 scale = Vector2(1.015873, 1)
 texture = ExtResource("1_feb5d")
 
